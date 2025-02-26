@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MusicRx - RODEO Review</title>
+    <title>MusicRx - Reviews</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.0/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.0/ScrollTrigger.min.js"></script>
@@ -13,9 +13,16 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <audio id="bgMusic" loop style="display: none;">
+        <source src="https://od.lk/s/MzhfMjg2MDQ2MDJf/veazy%20x%20dpbeats.mp3" type="audio/mpeg">
+    </audio>
+    <button id="musicToggle" style="position: fixed; bottom: 20px; right: 20px; z-index: 1001; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid var(--primary); color: var(--primary); padding: 10px; border-radius: 50%; cursor: pointer; transition: all 0.3s ease;">
+        <i class="fas fa-music"></i>
+    </button>
     <div id="cursor"></div>
     <div id="cursor-blur"></div>
     <canvas id="universe"></canvas>
+    
     <nav>
         <ul class="nav-links">
             <li><a href="index.html">Home</a></li>
@@ -26,24 +33,27 @@
         </ul>
     </nav>
 
-    <div class="container">
-        <h1 class="glitch" data-text="RODEO">RODEO</h1>
-        <div class="review-content">
-            <!-- Your existing Rodeo review content here -->
-            <h2>Travis Scott - RODEO</h2>
-            <div class="ratings-box">
-                <h2>Ratings</h2>
-                <p><span class="highlight">Originality (17/20):</span> A fresh take on trap, blending psychedelic elements with Houston's roots.</p>
-                <p><span class="highlight">Production Quality (19/20):</span> Stellar beats by Scott and co-producers are the album's backbone.</p>
-                <p><span class="highlight">Lyrics and Messaging (12/20):</span> Lyrical content leans heavily on party themes, lacking depth.</p>
-                <p><span class="highlight">Enjoyment Factor (18/20):</span> Addictive for fans of trap's vibe, though inconsistent pacing may tire some.</p>
-                <p><span class="highlight">Consistency (15/20):</span> Strong front-to-back but drags in spots, especially toward the end.</p>
-                <p class="overall-rating"><span class="highlight">Overall Rating (81/100):</span> 8.1/10</p>
+    <section class="content-section">
+        <div class="container">
+            <h1 class="glitch" data-text="Reviews">Reviews</h1>
+            <div class="grid">
+                <a href="review-rodeo.html" class="glass-card">
+                    <h2>Travis Scott - RODEO</h2>
+                    <p>A deep dive into Travis Scott's groundbreaking debut album</p>
+                    <p class="rating">Rating: 8.1/10</p>
+                </a>
+                <div class="glass-card">
+                    <h2>SZA - SOS</h2>
+                    <p>Coming soon...</p>
+                </div>
+                <div class="glass-card">
+                    <h2>Tyler, The Creator - CALL ME IF YOU GET LOST</h2>
+                    <p>Coming soon...</p>
+                </div>
             </div>
         </div>
-    </div>
+    </section>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
