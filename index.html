@@ -1059,10 +1059,45 @@
             border-top: 1px solid var(--primary);
         }
 
+        .reasons-box {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--primary);
+            border-radius: 10px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .reasons-box h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .reasons-box ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .reasons-box li {
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .reasons-box li::before {
+            content: '•';
+            color: var(--primary);
+            position: absolute;
+            left: 0;
+        }
+
+        .reasons-box strong {
+            color: var(--primary);
+        }
+
         .glass-card {
             opacity: var(--glass-card-opacity) !important;
         }
-
+        
         .content-details {
             display: var(--content-details-display) !important;
         }
@@ -1074,7 +1109,10 @@
     </style>
 </head>
 <body>
-    <audio id="bgMusic" src="https://od.lk/s/MzhfMjg2MDQ2MDJf/veazy%20x%20dpbeats.mp3" preload="auto" loop style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;"></audio>
+    <audio id="bgMusic" loop style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
+        <source src="https://od.lk/s/MzhfMjg2MDQ2MDJf/veazy%20x%20dpbeats.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
     <button id="musicToggle" style="position: fixed; bottom: 20px; right: 20px; z-index: 1001; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid var(--primary); color: var(--primary); padding: 10px; border-radius: 50%; cursor: pointer; transition: all 0.3s ease;">
         <i class="fas fa-music"></i>
     </button>
@@ -1101,7 +1139,7 @@
     <nav>
         <ul class="nav-links">
 
-            <li><a href="reviews.html">Reviews</a></li>
+            <li><a href="#reviews">Reviews</a></li>
             <li><a href="#news">News</a></li>
             <li><a href="#opinions">Opinions</a></li>
             <li><a href="#interviews">Interviews</a></li>
@@ -1157,19 +1195,9 @@
                     <p>Alternative Scene</p>
                 </div>
             </div>
-<h2>Trending</h2>
-                    <p>Hip Hop Evolution</p>
-                    <p>Pop Renaissance</p>
-                    <p>Alternative Scene</p>
-                </div>
-            </div>
 
             <div id="content-interviews" class="content-details" style="display: flex; flex-direction: column; opacity: 1; background: rgba(0, 0, 0, 0.8); padding: 2rem; border-radius: 15px; margin-top: 2rem; position: relative; z-index: 10; transition: opacity 0.3s ease-in-out;">
-                <h2>Interviews</h2>
-                <div class="interview-content">
-                    <h3>Upcoming Interviews</h3>
-                    <p>Coming soon...</p>
-                </div><h2>APPEAL</h2>
+                <h2>APPEAL</h2>
                 <div class="interview-content">
                     <h3>CASE 0385837042</h3>
                     <p>Dear X Support,</p>
@@ -1194,6 +1222,7 @@
                     <p><br>@veazydoezit</p>
                 </div>
             </div>
+            
             <div id="content-interviews" class="content-details" style="display: flex; flex-direction: column; opacity: 1; background: rgba(0, 0, 0, 0.8); padding: 2rem; border-radius: 15px; margin-top: 2rem; position: relative; z-index: 10; transition: opacity 0.3s ease-in-out;">
                 <h2>Interviews</h2>
                 <div class="interview-content">
@@ -1282,6 +1311,7 @@
             <button class="button" onclick="getNewQuote()" style="margin: 1rem auto; padding: 0.5rem 1rem; font-size: 0.9em;">New Quote</button>
         </div>
     </div>
+
 
 
     <script>
@@ -1728,7 +1758,7 @@
             quoteContainers.forEach(() => {
                 const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
                 const quoteContent = `
-                    <div class="quote-content">${randomQuote.text.split('').map(char => 
+                    <div class="quote-content```${randomQuote.text.split('').map(char => 
                         char === ' ' ? ' ' : `<span>${char}</span>`
                     ).join('')}</div>
                     <div class="quote-author">- ${randomQuote.author}</div>
