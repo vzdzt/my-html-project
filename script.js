@@ -1,4 +1,4 @@
-// Three.js and animation setup
+// Three.js setup
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 const renderer = new THREE.WebGLRenderer({ 
@@ -6,11 +6,11 @@ const renderer = new THREE.WebGLRenderer({
     alpha: true,
     antialias: true 
 });
-
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(window.devicePixelRatio);
+camera.position.z = 1000;
 
-// Create stars
+// Initialize geometry
 const geometry = new THREE.BufferGeometry();
 const vertices = [];
 const colors = [];
@@ -39,8 +39,7 @@ const material = new THREE.PointsMaterial({
 const points = new THREE.Points(geometry, material);
 scene.add(points);
 
-camera.position.z = 1000;
-
+// Track mouse position
 let mouseX = 0, mouseY = 0;
 document.addEventListener('mousemove', (e) => {
     mouseX = (e.clientX - window.innerWidth / 2) * 0.001;
@@ -376,13 +375,25 @@ document.addEventListener('DOMContentLoaded', initializeQuotes);
 // Music player functionality
 const bgMusic = document.getElementById('bgMusic');
 const musicToggle = document.getElementById('musicToggle');
-let isMusicPlaying = false;
 
-musicToggle.addEventListener('click', () => {
-    if (isMusicPlaying) {
-        bgMusic.pause();
-        musicToggle.innerHTML = '<i class="fas fa-music"></i>';
-    } else {
+if (bgMusic && musicToggle) {
+    bgMusic.volume = 0.5;
+
+    musicToggle.addEventListener('click', () => {
+        if (bgMusic.paused) {
+            bgMusic.play()
+                .then(() => {
+                    musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
+                })
+                .catch(err => {
+                    console.error('Audio playback error:', err);
+                });
+        } else {
+            bgMusic.pause();
+            musicToggle.innerHTML = '<i class="fas fa-music"></i>';
+        }
+    });
+}
 
 // Add 3D tilt effect to cards
 document.querySelectorAll('.glass-card').forEach(card => {
@@ -390,27 +401,21 @@ document.querySelectorAll('.glass-card').forEach(card => {
         const rect = card.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
-        
+
         const centerX = rect.width / 2;
         const centerY = rect.height / 2;
-        
+
         const rotateX = (y - centerY) / 10;
         const rotateY = (centerX - x) / 10;
-        
+
         card.style.setProperty('--rotateX', `${rotateX}deg`);
         card.style.setProperty('--rotateY', `${rotateY}deg`);
     });
-    
+
     card.addEventListener('mouseleave', () => {
         card.style.setProperty('--rotateX', '0deg');
         card.style.setProperty('--rotateY', '0deg');
     });
-});
-
-        bgMusic.play();
-        musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
-    }
-    isMusicPlaying = !isMusicPlaying;
 });
 
 // Reinitialize quotes when landing page is clicked
