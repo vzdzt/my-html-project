@@ -1059,6 +1059,41 @@
             border-top: 1px solid var(--primary);
         }
 
+        .reasons-box {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--primary);
+            border-radius: 10px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .reasons-box h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .reasons-box ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .reasons-box li {
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .reasons-box li::before {
+            content: '•';
+            color: var(--primary);
+            position: absolute;
+            left: 0;
+        }
+
+        .reasons-box strong {
+            color: var(--primary);
+        }
+
         .glass-card {
             opacity: var(--glass-card-opacity) !important;
         }
@@ -1161,7 +1196,34 @@
                 </div>
             </div>
 
-            <div id="content-interviews" class="content-details" style="display: flex; flex-direction: column; opacity: 0; background: rgba(0, 0, 0, 0.8); padding: 2rem; border-radius: 15px; margin-top: 2rem; position: relative; z-index: 10; transition: opacity 0.3s ease-in-out;">
+            <div id="content-interviews" class="content-details" style="display: flex; flex-direction: column; opacity: 1; background: rgba(0, 0, 0, 0.8); padding: 2rem; border-radius: 15px; margin-top: 2rem; position: relative; z-index: 10; transition: opacity 0.3s ease-in-out;">
+                <h2>APPEAL</h2>
+                <div class="interview-content">
+                    <h3>CASE 0385837042</h3>
+                    <p>Dear X Support,</p>
+                    <br>
+                    <p>Thank you for taking the time to review my request to reinstate my account, @veazydoezit. I’m genuinely grateful for your consideration. Over the past three years, I’ve poured my heart into this platform, posting daily for the last four years with barely a pause. X isn’t just a casual space for me—it’s a home where I’ve built a community, honed my craft, and grown a brand I’m proud of. As an X creator and advocate, I’d love the opportunity to continue contributing to this vibrant platform.</p>
+                    <br>
+                    <p>I think my suspension might be due to a few mistakes on my part, which I sincerely regret and fully own up to. Here’s what I believe may have happened:</p>
+                    <div class="reasons-box">
+                        <h3>Possible Reasons for My Suspension</h3>
+                        <ul>
+                            <li><strong>Alternate Accounts:</strong> I used alt accounts to boost my replies, not realizing this broke X’s rules on artificial engagement. I’ve stopped entirely and now see why it’s prohibited.</li>
+                            <li><strong>Satirical Post:</strong> I shared a tweet with satirical imagery and commentary as social critique. If it offended anyone, I apologize—that wasn’t my goal. I’m happy to provide context if needed.</li>
+                            <li><strong>Super Bowl Livestream:</strong> In an effort to grow my audience, I streamed the Super Bowl, not fully understanding copyright rules apply even to free events. It got 18k views (300 concurrent), but I know that doesn’t justify it. It was a dumb move, and it won’t happen again.</li>
+                        </ul>
+                    </div>
+
+                    <p>This suspension has been a wake-up call. In my 11 years on X, I’ve only had one brief 24-hour suspension—possibly a mix-up—showing I’m not a repeat troublemaker. I’ve learned how vital it is to stick to the rules, take breaks when needed, and use this platform responsibly. I still believe I can add value to X, and I’d be so thankful for one more chance to prove it. The support from my online friends has kept me going, and while my situation might seem minor in the grand scheme, X means everything to me. I’m sorry for my missteps and promise to improve daily while respecting the guidelines.</p>
+                    <br>
+                    <p>I’ve recently submitted an appeal with these details but wanted to offer this extra context. Please let me know if there’s more I can provide. Thank you again for considering me—I’d be thrilled to rejoin the X community and keep making a positive impact.</p>
+                    <br>
+                    <p>Sincerely,</p>
+                    <p><br>@veazydoezit</p>
+                </div>
+            </div>
+            
+            <div id="content-interviews" class="content-details" style="display: flex; flex-direction: column; opacity: 1; background: rgba(0, 0, 0, 0.8); padding: 2rem; border-radius: 15px; margin-top: 2rem; position: relative; z-index: 10; transition: opacity 0.3s ease-in-out;">
                 <h2>Interviews</h2>
                 <div class="interview-content">
                     <h3>Upcoming Interviews</h3>
@@ -1169,7 +1231,7 @@
                 </div>
             </div>
 
-            <div id="content-news" class="content-details" style="display: flex; flex-direction: column; opacity: 0; background: rgba(0, 0, 0, 0.8); padding: 2rem; border-radius: 15px; margin-top: 2rem; position: relative; z-index: 10; transition: opacity 0.3s ease-in-out;">
+            <div id="content-news" class="content-details" style="display: flex; flex-direction: column; opacity: 1; background: rgba(0, 0, 0, 0.8); padding: 2rem; border-radius: 15px; margin-top: 2rem; position: relative; z-index: 10; transition: opacity 0.3s ease-in-out;">
                 <h2>News</h2>
                 <div class="news-content">
                     <h3>Latest Updates</h3>
@@ -1177,7 +1239,7 @@
                 </div>
             </div>
 
-            <div id="content-opinions" class="content-details" style="display: flex; flex-direction: column; opacity: 0; background: rgba(0, 0, 0, 0.8); padding: 2rem; border-radius: 15px; margin-top: 2rem; position: relative; z-index: 10; transition: opacity 0.3s ease-in-out;">
+            <div id="content-opinions" class="content-details" style="display: flex; flex-direction: column; opacity: 1; background: rgba(0, 0, 0, 0.8); padding: 2rem; border-radius: 15px; margin-top: 2rem; position: relative; z-index: 10; transition: opacity 0.3s ease-in-out;">
                 <h2>Opinions</h2>
                 <div class="opinions-content">
                     <h3>Hot Takes</h3>
@@ -1185,22 +1247,22 @@
                 </div>
             </div>
 
-            <div id="content-reviews" class="content-details" style="display: flex; flex-direction: column; opacity: 0; background: rgba(0, 0, 0, 0.8); padding: 2rem; border-radius: 15px; margin-top: 2rem; position: relative; z-index: 10; transition: opacity 0.3s ease-in-out;">
-                <h3>Latest Reviews</h3>
+            <div id="content-reviews" class="content-details" style="display: flex; flex-direction: column; opacity: 1; background: rgba(0, 0, 0, 0.8); padding: 2rem; border-radius: 15px; margin-top: 2rem; position: relative; z-index: 10; transition: opacity 0.3s ease-in-out;">
+                <h2>Latest Reviews</h2>
                 <div class="review-content">
-                    <h2>Travis Scott - RODEO</h2>
+                    <h3>Travis Scott - RODEO</h3>
                     <p>Hip-hop soared into uncharted territory on <span class="highlight">September 4, 2015</span>, when Travis Scott dropped <em>Rodeo</em>, his debut studio album under Grand Hustle and Epic Records. Building on the buzz of his 2014 mixtape <em>Days Before Rodeo</em>, this 14-track odyssey cemented Scott’s status as a visionary producer and polarizing rapper. As of <span class="highlight">February 19, 2025</span>, <em>Rodeo</em> remains a polarizing yet iconic staple of trap music—let’s dive into its hazy, star-studded world.</p>
 <br>
-                    <h3>The Messaging and Theme</h3>
+                    <h2>The Messaging and Theme</h2>
                     <p><em>Rodeo</em>’s cover art—a surreal, neon-lit rodeo silhouette featuring a hyper-realistic action figure of Travis Scott, hand-sculpted by artist <span class="highlight">Dan Chung</span>, designed by Travis Scott and visual artist <span class="highlight">David Stromberg</span>—oozes otherworldly swagger, a perfect visual for an album that narrates Scott’s chaotic rise to fame. Narrated by T.I., the album loosely frames itself as a rebel’s journey through excess, fame, and escapism, inspired by Scott’s Houston roots and L.A. nightlife. Tracks like <span class="highlight">“90210”</span> and <span class="highlight">“Maria I’m Drunk”</span> paint vivid scenes of luxury and rebellion, while <span class="highlight">“Apple Pie”</span> closes with reflective melancholy, questioning the cost of success. It’s less a linear story and more a psychedelic mood piece, capturing trap’s peak with a focus on vibe over depth.</p>
                     <br>
-                    <h3>Production and Sound</h3>
+                    <h2>Production and Sound</h2>
                     <p>Scott’s production prowess shines, with him credited as a co-producer on every track alongside <span class="highlight">Metro Boomin, Mike Dean, WondaGurl, Sonny Digital</span>, and others. <em>Rodeo</em> blends trap’s booming 808s with psychedelic synths, distorted guitars, and reverb-heavy vocals, creating a hypnotic, spacey soundscape. <span class="highlight">“Nightcrawler”</span> pulses with dark, bass-heavy menace, while <span class="highlight">“Antidote”</span> delivers an infectious, auto-tuned hook that became an anthem. The album’s use of auto-tune and vocal distortion—drawing from Kid Cudi and Kanye West—adds a dreamy, disorienting layer, prioritizing atmosphere over precision.</p>
                     <br>
-                    <h3>Features</h3>
+                    <h2>Features</h2>
                     <p><em>Rodeo</em> boasts a star-studded lineup of guests, amplifying its cultural impact. <span class="highlight">Future, 2 Chainz, Juicy J, The Weeknd, Swae Lee, Chief Keef, Kanye West, Justin Bieber, Young Thug, Quavo, Toro y Moi, and Schoolboy Q</span> bring diverse energy, often stealing the spotlight. The Weeknd’s haunting vocals on <span class="highlight">“Pray 4 Love”</span> and Bieber’s unexpected turn on <span class="highlight">“Maria I’m Drunk”</span> are highlights, while Quavo’s verse on <span class="highlight">“Oh My Dis Side”</span> adds a trap punch. These features elevate Scott’s vision but sometimes overshadow his own rapping, raising questions about his role as a rapper versus curator.</p>
                     <br>
-                    <h3>Tracks to Watch</h3>
+                    <h2>Tracks to Watch</h2>
                     <ul>
                         <li><span class="highlight">“90210”</span> - A cinematic opener blending haunting piano and Scott’s auto-tuned storytelling.</li>
                         <li><span class="highlight">“Antidote”</span> - The breakout hit, a hypnotic trap banger with a sticky hook.</li>
@@ -1208,10 +1270,10 @@
                         <li><span class="highlight">“Nightcrawler” (feat. Swae Lee & Chief Keef)</span> - A dark, bass-heavy standout for late-night vibes.</li>
                     </ul>
                     <br>
-                    <h3>Previous Works</h3>
+                    <h2>Previous Works</h2>
                     <p>Before <em>Rodeo</em>, Travis Scott built his name with mixtapes like <em>Owl Pharaoh</em> (2013) and <em>Days Before Rodeo</em> (2014), showcasing his production skills and auto-tuned flow. Those projects laid the groundwork for <em>Rodeo</em>’s psychedelic trap sound, drawing from Houston’s chopped-and-screwed tradition and Scott’s collaborations with artists like T.I. and Kanye West. <em>Rodeo</em> marks his evolution from mixtape phenom to major-label star, refining the hazy aesthetic that would later define <em>Astroworld</em>.</p>
                     <br>
-                    <h3>Summary</h3>
+                    <h2>Summary</h2>
                     <p><em>Rodeo</em> is a <span class="highlight">65-minute thrill ride</span> that thrives on production and atmosphere, even if its lyrical depth falters. Scott’s visionary beats and all-star features create a psychedelic trap masterpiece, but the album’s length and Scott’s uneven rapping—often criticized as monotonous or substance-lacking—can wear thin. It’s not perfect, but its cultural impact is undeniable, spawning hits like <span class="highlight">“Antidote”</span> and influencing trap’s evolution. As of <span class="highlight">February 19, 2025</span>, <em>Rodeo</em> remains a fan favorite and a polarizing classic, less about complexity and more about Scott’s bold, hazy vision.</p>
                     <br>
                     <div class="ratings-box">
