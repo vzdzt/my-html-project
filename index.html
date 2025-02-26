@@ -1,4 +1,4 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -268,6 +268,8 @@
             color: #fff;
             overflow-x: hidden;
             perspective: 2000px;
+            --glass-card-opacity: 1;
+            --content-details-display: flex;
         }
 
         h1, h2, .nav-links a {
@@ -387,7 +389,7 @@
         }
 
         .glass-card {
-            background: var(--glass);
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border-radius: 20px;
             border: 1px solid rgba(255, 255, 255, 0.2);
@@ -397,6 +399,9 @@
             cursor: pointer;
             position: relative;
             overflow: hidden;
+            opacity: 1;
+            display: block;
+            visibility: visible;
         }
 
         .glass-card::before {
@@ -888,7 +893,7 @@
 
         @keyframes acidEffect {
             0% {
-                filter: hue-rotate(0deg) saturate(100%);
+                filter: huerotate(0deg) saturate(100%);
             }
             50% {
                 filter: hue-rotate(180deg) saturate(200%);
@@ -965,11 +970,13 @@
         .content-details {
             margin-top: 2rem;
             padding: 2rem;
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(0, 0, 0, 0.8);
             border-radius: 15px;
             backdrop-filter: blur(10px);
             color: white;
             animation: fadeIn 0.5s ease-in-out;
+            display: flex;
+            flex-direction: column;
         }
 
         @keyframes fadeIn {
@@ -985,6 +992,14 @@
         .content-details h3 {
             color: var(--secondary);
             margin: 1rem 0;
+        }
+
+        .glass-card {
+            opacity: var(--glass-card-opacity) !important;
+        }
+        
+        .content-details {
+            display: var(--content-details-display) !important;
         }
 
         @keyframes ekg-pulse {
@@ -1074,7 +1089,7 @@
                 </div>
             </div>
 
-            <div id="content-interviews" class="content-details" style="display: none; opacity: 0; background: rgba(0, 0, 0, 0.8); padding: 2rem; border-radius: 15px; margin-top: 2rem; position: relative; z-index: 10; transition: opacity 0.3s ease-in-out;">
+            <div id="content-interviews" class="content-details" style="display: flex; flex-direction: column; opacity: 0; background: rgba(0, 0, 0, 0.8); padding: 2rem; border-radius: 15px; margin-top: 2rem; position: relative; z-index: 10; transition: opacity 0.3s ease-in-out;">
                 <h2>Interviews</h2>
                 <div class="interview-content">
                     <h3>Upcoming Interviews</h3>
@@ -1082,7 +1097,7 @@
                 </div>
             </div>
 
-            <div id="content-news" class="content-details" style="display: none; opacity: 0; background: rgba(0, 0, 0, 0.8); padding: 2rem; border-radius: 15px; margin-top: 2rem; position: relative; z-index: 10; transition: opacity 0.3s ease-in-out;">
+            <div id="content-news" class="content-details" style="display: flex; flex-direction: column; opacity: 0; background: rgba(0, 0, 0, 0.8); padding: 2rem; border-radius: 15px; margin-top: 2rem; position: relative; z-index: 10; transition: opacity 0.3s ease-in-out;">
                 <h2>News</h2>
                 <div class="news-content">
                     <h3>Latest Updates</h3>
@@ -1090,7 +1105,7 @@
                 </div>
             </div>
 
-            <div id="content-opinions" class="content-details" style="display: none; opacity: 0; background: rgba(0, 0, 0, 0.8); padding: 2rem; border-radius: 15px; margin-top: 2rem; position: relative; z-index: 10; transition: opacity 0.3s ease-in-out;">
+            <div id="content-opinions" class="content-details" style="display: flex; flex-direction: column; opacity: 0; background: rgba(0, 0, 0, 0.8); padding: 2rem; border-radius: 15px; margin-top: 2rem; position: relative; z-index: 10; transition: opacity 0.3s ease-in-out;">
                 <h2>Opinions</h2>
                 <div class="opinions-content">
                     <h3>Hot Takes</h3>
@@ -1098,7 +1113,7 @@
                 </div>
             </div>
 
-            <div id="content-reviews" class="content-details" style="display: none; opacity: 0; background: rgba(0, 0, 0, 0.8); padding: 2rem; border-radius: 15px; margin-top: 2rem; position: relative; z-index: 10; transition: opacity 0.3s ease-in-out;">
+            <div id="content-reviews" class="content-details" style="display: flex; flex-direction: column; opacity: 0; background: rgba(0, 0, 0, 0.8); padding: 2rem; border-radius: 15px; margin-top: 2rem; position: relative; z-index: 10; transition: opacity 0.3s ease-in-out;">
                 <h2>Latest Reviews</h2>
                 <div class="review-content">
                     <h3>Travis Scott - UTOPIA</h3>
@@ -1106,7 +1121,7 @@
                 </div>
             </div>
 
-            <div id="content-artists" class="content-details" style="display: none; background: rgba(0, 0, 0, 0.8); padding: 2rem; border-radius: 15px; margin-top: 2rem; position: relative; z-index: 10;">
+            <div id="content-artists" class="content-details" style="display: flex; flex-direction: column; background: rgba(0, 0, 0, 0.8); padding: 2rem; border-radius: 15px; margin-top: 2rem; position: relative; z-index: 10;">
                 <h2>Featured Artists</h2>
                 <div class="artist-content">
                     <h3>Drake</h3>
@@ -1114,7 +1129,7 @@
                 </div>
             </div>
 
-            <div id="content-trending" class="content-details" style="display: none; background: rgba(0, 0, 0, 0.8); padding: 2rem; border-radius: 15px; margin-top: 2rem; position: relative; z-index: 10;">
+            <div id="content-trending" class="content-details" style="display: flex; flex-direction: column; background: rgba(0, 0, 0, 0.8); padding: 2rem; border-radius: 15px; margin-top: 2rem; position: relative; z-index: 10;">
                 <h2>Trending</h2>
                 <div class="trending-content">
                     <h3>Hip Hop Evolution</h3>
@@ -1136,7 +1151,7 @@
             allContents.forEach(content => {
                 content.style.display = 'none';
             });
-            
+
             const selectedContent = document.getElementById(`content-${contentType}`);
             if (selectedContent) {
                 selectedContent.style.display = 'block';
@@ -1574,7 +1589,7 @@
             quoteContainers.forEach(() => {
                 const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
                 const quoteContent = `
-                    <div class="quote-content">${randomQuote.text.split('').map(char => 
+                    <div class="quote-content```${randomQuote.text.split('').map(char => 
                         char === ' ' ? ' ' : `<span>${char}</span>`
                     ).join('')}</div>
                     <div class="quote-author">- ${randomQuote.author}</div>
