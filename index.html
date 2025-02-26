@@ -395,13 +395,16 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
             padding: 2rem;
             margin: 2rem 0;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
             position: relative;
             overflow: hidden;
             opacity: 1;
             display: block;
             visibility: visible;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1);
         }
 
         .glass-card::before {
@@ -420,14 +423,46 @@
             transition: 0.5s;
         }
 
+        .glass-card {
+            transition: transform 0.2s ease-out;
+            transform-style: preserve-3d;
+            will-change: transform;
+            transform: perspective(1000px) rotateX(0) rotateY(0);
+        }
+
         .glass-card:hover {
-            transform: translateY(-10px) scale(1.05) rotateX(10deg);
+            transform: perspective(1000px) 
+                      rotateX(calc(var(--mouse-y, 0) * 40deg)) 
+                      rotateY(calc(var(--mouse-x, 0) * 40deg));
             background: rgba(255, 255, 255, 0.15);
             border-color: var(--primary);
             box-shadow: 
-                0 0 30px rgba(0, 247, 255, 0.2),
-                0 0 60px rgba(0, 247, 255, 0.1),
-                0 0 90px rgba(0, 247, 255, 0.05);
+                0 0 0 2px var(--primary),
+                0 0 30px rgba(0, 247, 255, 0.4),
+                0 0 60px rgba(0, 247, 255, 0.2),
+                0 0 90px rgba(0, 247, 255, 0.1);
+        }
+
+        .glass-card:hover::after {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: 20px;
+            padding: 1px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-mask: 
+                linear-gradient(#fff 0 0) content-box, 
+                linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            animation: borderGlow 2s linear infinite;
+        }
+
+        @keyframes borderGlow {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
         }
 
         .glass-card:hover::before {
@@ -922,17 +957,22 @@
         .quote-container {
             margin: 4rem auto;
             max-width: 800px;
+            width: 90%;
             padding: 2rem;
             background: rgba(0, 0, 0, 0.3);
             border-radius: 15px;
             backdrop-filter: blur(10px);
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            hyphens: auto;
         }
 
         .quote-text {
-            font-size: 1.5rem;
+            font-size: clamp(1rem, 4vw, 1.5rem);
             line-height: 1.6;
             color: var(--primary);
             text-align: center;
+            padding: 0 1rem;
         }
 
         .quote-text span {
@@ -1009,6 +1049,13 @@
     </style>
 </head>
 <body>
+    <audio id="bgMusic" loop style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
+        <source src="attached_assets/veazy x dpbeats.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <button id="musicToggle" style="position: fixed; bottom: 20px; right: 20px; z-index: 1001; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid var(--primary); color: var(--primary); padding: 10px; border-radius: 50%; cursor: pointer; transition: all 0.3s ease;">
+        <i class="fas fa-music"></i>
+    </button>
     <div id="preloader" style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: var(--dark); display: flex; justify-content: center; align-items: center; z-index: 10000; transition: opacity 0.5s;">
         <div style="color: var(--primary); font-size: 2em; text-align: center;">
             <div style="margin-bottom: 1rem;">Loading MusicRx</div>
