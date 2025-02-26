@@ -1,1715 +1,525 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>musicRx</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.0/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.0/ScrollTrigger.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <style>
-        #landing-page {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            background: var(--dark);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 1.5s;
-            cursor: pointer;
-        }
-
-        #landing-page.fade-out {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .landing-content {
-            text-align: center;
-            color: var(--primary);
-        }
-
-        .landing-title {
-            font-size: 4em;
-
-    <!-- Audio elements for hover effects -->
-    <audio id="hover-sound-1" preload="auto">
-        <source src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="hover-sound-2" preload="auto">
-        <source src="https://assets.mixkit.co/active_storage/sfx/2570/2570-preview.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="hover-sound-3" preload="auto">
-        <source src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3" type="audio/mpeg">
-    </audio>
-
-            margin-bottom: 1rem;
-            position: relative;
-            transition: all 0.3s ease;
-            text-shadow: 0 0 10px var(--primary);
-        }
-
-        .landing-title {
-            transition: all 0.5s ease;
-            position: relative;
-        }
-
-        .landing-title:hover {
-            color: var(--primary);
-            text-shadow: 
-                0 0 20px var(--primary),
-                0 0 40px var(--secondary),
-                0 0 60px var(--accent);
-            transform: scale(1.1) translateY(-5px);
-        }
-
-        .quote-content span {
-            display: inline-block;
-            transition: all 0.25s ease;
-        }
-
-        .quote-content span:hover {
-            animation: quoteGlitch 0.3s infinite;
-            color: var(--primary);
-            text-shadow: 
-                2px 2px var(--secondary),
-                -2px -2px var(--accent);
-            transform: translate(2px, -2px);
-        }
-
-        @keyframes quoteGlitch {
-            0% {
-                transform: translate(0);
-                text-shadow: 
-                    2px 2px var(--secondary),
-                    -2px -2px var(--accent);
-            }
-            25% {
-                transform: translate(-2px, 2px);
-                text-shadow: 
-                    -2px -2px var(--secondary),
-                    2px 2px var(--accent);
-                filter: hue-rotate(90deg);
-            }
-            50% {
-                transform: translate(2px, -2px);
-                text-shadow: 
-                    2px -2px var(--secondary),
-                    -2px 2px var(--accent);
-                filter: hue-rotate(180deg);
-            }
-            75% {
-                transform: translate(-2px, -2px);
-                text-shadow: 
-                    -2px 2px var(--secondary),
-                    2px -2px var(--accent);
-                filter: hue-rotate(270deg);
-            }
-            100% {
-                transform: translate(0);
-                text-shadow: 
-                    2px 2px var(--secondary),
-                    -2px -2px var(--accent);
-                filter: hue-rotate(360deg);
-            }
-        }
-
-        @keyframes titlePulse {
-            from {
-                transform: scale(1.1) rotate(2deg);
-                filter: hue-rotate(0deg) brightness(1);
-            }
-            to {
-                transform: scale(1.15) rotate(-2deg);
-                filter: hue-rotate(30deg) brightness(1.2);
-            }
-        }
-
-        .landing-subtitle {
-            opacity: 0.8;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            position: relative;
-            transition: all 0.3s ease;
-        }
-
-        .landing-subtitle::before {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            height: 2px;
-            background: #ff0000;
-            animation: heartMonitor 1.5s ease-in-out infinite;
-            box-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000;
-        }
-
-        .landing-subtitle:hover {
-            color: #ff0000;
-            text-shadow: 
-                0 0 20px #ff0000,
-                0 0 40px #ff0000,
-                0 0 60px #ff0000;
-            letter-spacing: 0.3em;
-            transform: scale(1.1);
-        }
-
-        @keyframes heartMonitor {
-            0% { transform: translateX(-50%) scaleX(0); }
-            20% { transform: translateX(-50%) scaleX(0.3); }
-            40% { transform: translateX(-50%) scaleX(1); }
-            43% { transform: translateX(-50%) scaleX(0.6); }
-            46% { transform: translateX(-50%) scaleX(1.4); }
-            50% { transform: translateX(-50%) scaleX(0.2); }
-            60% { transform: translateX(-50%) scaleX(1); }
-            80% { transform: translateX(-50%) scaleX(0.3); }
-            100% { transform: translateX(-50%) scaleX(0); }
-        }
-
-        #loading-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            background: var(--dark);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 0.5s;
-        }
-
-        #loading-text {
-            color: var(--primary);
-            font-size: 2.5em;
-            text-align: center;
-            font-family: 'Syncopate', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            animation: glow 2s ease-in-out infinite;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        #loading-screen.fade-out {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        #loading-text {
-            color: var(--primary);
-            font-size: 2em;
-            text-align: center;
-            font-family: 'Syncopate', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            animation: glow 2s ease-in-out infinite;
-        }
-
-        @keyframes glow {
-            0%, 100% { text-shadow: 0 0 10px var(--primary); }
-            50% { text-shadow: 0 0 20px var(--primary), 0 0 30px var(--primary); }
-        }
-
-        /* Keep original cursor styles */
-        #cursor {
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--primary);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            transform: translate(-50%, -50%);
-            transition: all 0.1s ease;
-            z-index: 9999;
-        }
-
-        #cursor-blur {
-            width: 400px;
-            height: 400px;
-            background: rgba(0, 247, 255, 0.1);
-            border-radius: 50%;
-            position: fixed;
-            filter: blur(80px);
-            pointer-events: none;
-            transform: translate(-50%, -50%);
-            z-index: -1;
-        }
-
-        /* Rest of the styles from the new code */
-        :root {
-            --primary: #00f7ff;
-            --secondary: #ff00f7;
-            --accent: #7B68EE;
-            --dark: #0a0a0a;
-            --glass: rgba(255, 255, 255, 0.1);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Space Grotesk', sans-serif;
-            background: var(--dark);
-            color: #fff;
-            overflow-x: hidden;
-            perspective: 2000px;
-            --glass-card-opacity: 1;
-            --content-details-display: flex;
-        }
-
-        h1, h2, .nav-links a {
-            font-family: 'Syncopate', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-        }
-
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(10, 10, 10, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 1rem;
-            z-index: 1000;
-        }
-
-        .nav-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            font-size: 1rem;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary);
-        }
-
-        #universe {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-        }
-
-        .hero {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding-top: 60px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .hero h1 {
-            font-size: 3.5em;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 2rem;
-            opacity: 0;
-            transform: translateY(50px);
-            animation: fadeUp 1s forwards;
-        }
-
-        @keyframes fadeUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .social-links {
-            display: flex;
-            flex-direction: row;
-            gap: 1rem;
-            justify-content: center;
-            margin-top: 2rem;
-        }
-
-        .social-button {
-            background: var(--glass);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 1rem;
-            border-radius: 50%;
-            color: white;
-            text-decoration: none;
-            text-align: center;
-            transition: all 0.3s;
-            width: 70px;
-            height: 70px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            filter: blur(0); /* Added blur effect */
-            transition: filter 0.3s, transform 0.3s; /* Added transition */
-        }
-
-        .social-button:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary);
-            box-shadow: 0 0 20px rgba(0, 247, 255, 0.2);
-            filter: blur(2px); /* Added blur effect on hover */
-            transform: translateY(-8px) rotate(360deg) scale(1.1); /* Enhanced transform */
-        }
-
-        .bio {
-            max-width: 600px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-            text-align: center;
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        .glass-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 2rem;
-            margin: 2rem 0;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            opacity: 1;
-            display: block;
-            visibility: visible;
-            transform-style: preserve-3d;
-            perspective: 1000px;
-            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1);
-        }
-
-        .glass-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                90deg,
-                transparent,
-                rgba(255, 255, 255, 0.2),
-                transparent
-            );
-            transition: 0.5s;
-        }
-
-        .glass-card {
-            transition: transform 0.2s ease-out;
-            transform-style: preserve-3d;
-            will-change: transform;
-            transform: perspective(1000px) rotateX(0) rotateY(0);
-        }
-
-        .glass-card:hover {
-            transform: perspective(1000px) 
-                      rotateX(calc(var(--mouse-y, 0) * 40deg)) 
-                      rotateY(calc(var(--mouse-x, 0) * 40deg));
-            background: rgba(255, 255, 255, 0.15);
-            border-color: var(--primary);
-            box-shadow: 
-                0 0 0 2px var(--primary),
-                0 0 30px rgba(0, 247, 255, 0.4),
-                0 0 60px rgba(0, 247, 255, 0.2),
-                0 0 90px rgba(0, 247, 255, 0.1);
-        }
-
-        .glass-card:hover::after {
-            content: '';
-            position: absolute;
-            inset: -1px;
-            border-radius: 20px;
-            padding: 1px;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            -webkit-mask: 
-                linear-gradient(#fff 0 0) content-box, 
-                linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            pointer-events: none;
-            animation: borderGlow 2s linear infinite;
-        }
-
-        @keyframes borderGlow {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
-        }
-
-        .glass-card:hover::before {
-            left: 100%;
-        }
-
-        .button {
-            background: transparent;
-            border: 2px solid var(--primary);
-            color: var(--primary);
-            padding: 1rem 2rem;
-            font-size: 1.1em;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s;
-            border-radius: 8px;
-            margin: 2rem 0;
-        }
-
-        .button::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            transform: translate(-50%, -50%) rotate(45deg) scale(0);
-            transition: transform 0.6s ease;
-            z-index: -1;
-        }
-
-        .button:hover::before {
-            transform: translate(-50%, -50%) rotate(45deg) scale(1);
-        }
-
-        .button:hover {
-            color: var(--dark);
-            border-color: transparent;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 4rem 0;
-            perspective: 1000px;
-        }
-
-        @media (max-width: 768px) {
-            #universe {
-                opacity: 0.5;
-            }
-            .hero h1 {
-                font-size: 2.5em;
-            }
-            #cursor, #cursor-blur {
-                display: none;
-            }
-            .nav-links {
-                gap: 1rem;
-                flex-wrap: wrap;
-                padding: 0.5rem;
-            }
-            .glass-card {
-                margin: 1rem 0;
-            }
-            .landing-title {
-                font-size: 2.5em;
-            }
-            .quote-container {
-                padding: 1rem;
-                margin: 2rem 1rem;
-            }
-            .quote-text {
-                font-size: 1.2rem;
-            }
-            .social-links {
-                gap: 0.5rem;
-            }
-            .social-button {
-                width: 50px;
-                height: 50px;
-            }
-            .container {
-                padding: 0 1rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .hero h1 {
-                font-size: 2em;
-            }
-            .landing-title {
-                font-size: 2em;
-            }
-            .landing-subtitle {
-                font-size: 1em;
-            }
-            .bio {
-                font-size: 0.9rem;
-            }
-            .quote-text {
-                font-size: 1rem;
-            }
-            .button {
-                padding: 0.8rem 1.5rem;
-                font-size: 1em;
-            }
-            .nav-links a {
-                font-size: 0.9em;
-            }
-        }
-
-        .content-section {
-            min-height: 100vh;
-            padding-top: 80px;
-            width: 100%;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-            width: 100%;
-            position: relative;
-            z-index: 1;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            width: 100%;
-            margin-top: 4rem;
-        }
-
-        .glass-card {
-            cursor: pointer;
-            min-height: 200px;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .glass-card h2 {
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-
-        .glass-card p {
-            color: white;
-            margin: 0.5rem 0;
-            transition: all 0.3s ease;
-        }
-
-        .glass-card:hover p {
-            color: var(--primary);
-            transform: translateX(10px);
-        }
-        .glitch {
-            position: relative;
-            font-size: 4rem;
-            font-weight: 700;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--primary);
-            text-shadow: 
-                0 0 10px var(--primary),
-                0 0 20px var(--primary),
-                0 0 40px var(--primary);
-        }
-
-        .glitch::before {
-            content: attr(data-text);
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(180deg, var(--primary) 0%, transparent 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            animation: drip 2s infinite;
-            transform-origin: top;
-        }
-
-        @keyframes drip {
-            0% {
-                transform: scaleY(0);
-                filter: blur(0);
-                opacity: 1;
-            }
-            100% {
-                transform: scaleY(4);
-                filter: blur(2px);
-                opacity: 0;
-            }
-        }
-
-        @keyframes meltEffect {
-            0% {
-                transform: scale(1) translateY(0);
-                filter: blur(0);
-            }
-            50% {
-                transform: scale(1.1) translateY(5px);
-                filter: blur(2px);
-                text-shadow: 
-                    0 5px 15px var(--primary),
-                    0 10px 25px var(--secondary),
-                    0 15px 35px var(--accent);
-            }
-            100% {
-                transform: scale(1) translateY(0);
-                filter: blur(0);
-            }
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.8; transform: scale(0.98); }
-        }
-
-        .glitch {
-            animation: sineWave 2s ease-in-out infinite;
-        }
-
-        @keyframes sineWave {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            25% {
-                transform: translateY(-10px);
-            }
-            75% {
-                transform: translateY(10px);
-            }
-        }
-
-        .glitch span {
-            display: inline-block;
-            animation: sineWaveLetters 2s ease-in-out infinite;
-            animation-delay: calc(0.1s * var(--letter-index));
-        }
-
-        @keyframes sineWaveLetters {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-15px);
-            }
-        }
-
-        .nav-links a,
-        .social-button {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .nav-links a {
-            color: var(--primary);
-            text-shadow: 0 0 5px var(--primary);
-            position: relative;
-        }
-
-        .nav-links a:hover {
-            animation: glitch 0.3s infinite;
-        }
-
-        @keyframes glitch {
-            0% {
-                transform: translate(0);
-                text-shadow: 0 0 5px var(--primary);
-            }
-            25% {
-                transform: translate(-2px, 2px);
-                color: var(--secondary);
-                text-shadow: -2px 2px var(--primary);
-            }
-            50% {
-                transform: translate(2px, -2px);
-                color: var(--accent);
-                text-shadow: 2px -2px var(--secondary);
-            }
-            75% {
-                transform: translate(-2px, -2px);
-                color: var(--primary);
-                text-shadow: -2px -2px var(--accent);
-            }
-            100% {
-                transform: translate(0);
-                text-shadow: 0 0 5px var(--primary);
-            }
-        }
-
-        .glass-card {
-            box-shadow: 0 8px 32px rgba(0, 247, 255, 0.1);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .glass-card:hover {
-            transform: translateY(-15px) scale(1.05);
-            box-shadow: 
-                0 15px 45px rgba(0, 247, 255, 0.2),
-                0 0 0 2px rgba(0, 247, 255, 0.1);
-        }
-
-        .button {
-            box-shadow: 0 4px 15px rgba(0, 247, 255, 0.1);
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .button:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0, 247, 255, 0.2);
-        }
-
-        .social-button {
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .social-button:hover {
-            transform: translateY(-8px) rotate(360deg);
-            box-shadow: 
-                0 10px 25px rgba(0, 247, 255, 0.2),
-                0 0 0 3px rgba(0, 247, 255, 0.1);
-        }
-
-        @keyframes glitch-shine {
-            0% { opacity: 1; transform: rotate(45deg) translateY(0); }
-            100% { opacity: 0; transform: rotate(45deg) translateY(100%); }
-        }
-
-        @keyframes heartbeat-text {
-            0% { opacity: 0.3; text-shadow: none; }
-            10% { opacity: 0.5; text-shadow: 0 0 5px #ff0000; }
-            20% { opacity: 1; text-shadow: 0 0 20px #ff0000; }
-            25% { opacity: 0.5; text-shadow: 0 0 5px #ff0000; }
-            30% { opacity: 1; text-shadow: 0 0 20px #ff0000; }
-            70% { opacity: 0.5; text-shadow: 0 0 5px #ff0000; }
-            80% { opacity: 0.3; text-shadow: none; }
-            100% { opacity: 0.3; text-shadow: none; }
-        }
-
-        .glitch span {
-            display: inline-block;
-        }
-
-        .heartbeat-text {
-            color: #fff;
-            animation: heartbeat-pulse 1.5s ease-in-out infinite;
-            transition: all 0.3s ease;
-        }
-
-        .heartbeat-text:hover {
-            color: #ff0000;
-            text-shadow: 0 0 10px #ff0000;
-        }
-
-        .heartbeat-line {
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: #ff0000;
-            animation: heartbeat-line 1.5s ease-in-out infinite;
-        }
-
-        @keyframes heartbeat-pulse {
-            0%, 100% { opacity: 1; text-shadow: 0 0 5px #fff; }
-            50% { opacity: 0.5; text-shadow: 0 0 10px #ff0000; }
-        }
-
-        @keyframes heartbeat-line {
-            0%, 100% { transform: scaleX(0); opacity: 0.3; }
-            25% { transform: scaleX(1); opacity: 1; }
-            50% { transform: scaleX(0.3); opacity: 0.3; }
-            75% { transform: scaleX(1.2); opacity: 1; }
-        }
-
-        @keyframes rgbPulseFade {
-            0% { color: #ff69b4; opacity: 1; }  /* light pink */
-            20% { color: #00ff00; opacity: 0.8; }  /* lighter pink */
-            40% { color: #0000ff; opacity: 0.6; }  /* black */
-            60% { color: #ff00ff; opacity: 0.4; }  /* lighter pink */
-            80% { color: #00ffff; opacity: 0.2; }  /* light pink */
-            90% { color: #000000; opacity: 0.1; }  /* black */
-            100% { color: #ff0000; opacity: 1; }  /* light pink */
-        }
-
-        .rx {
-            font-family: "Times New Roman", serif;
-            margin-right: 0.2em;
-        }
-
-        .nav-links a {
-            color: #fff;
-            text-shadow: 
-                0 0 5px #fff,
-                0 0 10px #fff,
-                0 0 20px #fff;
-            transition: all 0.1s;
-            position: relative;
-        }
-
-        .nav-links a:hover {
-            animation: neonGlitch 0.2s infinite;
-        }
-
-        @keyframes neonGlitch {
-            0% {
-                text-shadow: 
-                    0 0 10px #fff,
-                    0 0 20px #fff,
-                    0 0 40px #fff,
-                    0 0 80px #fff;
-                transform: translate(0) scale(1);
-                filter: hue-rotate(0deg);
-            }
-            25% {
-                text-shadow: 
-                    -4px 0 10px #f00,
-                    4px 4px 20px #0ff,
-                    -4px -4px 40px #f0f;
-                transform: translate(-4px, 4px) scale(1.2) skew(-5deg);
-                filter: hue-rotate(90deg) brightness(1.5);
-            }
-            50% {
-                text-shadow: 
-                    4px 0 10px #0f0,
-                    -4px -4px 20px #ff0,
-                    4px 4px 40px #f00;
-                transform: translate(4px, -4px) scale(0.8) skew(5deg);
-                filter: hue-rotate(180deg) contrast(1.5);
-            }
-            75% {
-                text-shadow: 
-                    -4px 4px 10px #00f,
-                    4px -4px 20px #f0f,
-                    -4px 4px 40px #0ff;
-                transform: translate(-2px, -2px) scale(1.1) skew(-5deg);
-                filter: hue-rotate(270deg) saturate(1.5);
-            }
-            100% {
-                text-shadow: 
-                    0 0 10px #fff,
-                    0 0 20px #fff,
-                    0 0 40px #fff,
-                    0 0 80px #fff;
-                transform: translate(0) scale(1);
-                filter: hue-rotate(360deg);
-            }
-        }
-
-        .social-button {
-            animation: acidEffect 4s infinite;
-        }
-
-        @keyframes acidEffect {
-            0% {
-                filter: huerotate(0deg) saturate(100%);
-            }
-            50% {
-                filter: hue-rotate(180deg) saturate(200%);
-            }
-            100% {
-                filter: hue-rotate(360deg) saturate(100%);
-            }
-        }
-
-        @keyframes ekg {
-            0% { clip-path: polygon(0% 50%, 0% 50%); }
-            10% { clip-path: polygon(0% 50%, 15% 50%); }
-            20% { clip-path: polygon(0% 50%, 15% 50%, 20% -20%, 25% 120%, 30% 50%, 35% 50%); }
-            30% { clip-path: polygon(0% 50%, 35% 50%, 40% -40%, 45% 140%, 50% 50%, 55% -40%, 60% 140%, 65% 50%, 100% 50%); }
-            100% { clip-path: polygon(0% 50%, 100% 50%); }
-        }
-
-        @keyframes colorCycle {
-            0% { color: #ff69b4; }  /* light pink */
-            25% { color: #ff8cc6; }  /* lighter pink */
-            50% { color: #000000; }  /* black */
-            75% { color: #ff8cc6; }  /* lighter pink */
-            100% { color: #ff69b4; }  /* light pink */
-        }
-
-        .quote-container {
-            margin: 4rem auto;
-            max-width: 800px;
-            width: 90%;
-            padding: 2rem;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            overflow-wrap: break-word;
-            word-wrap: break-word;
-            hyphens: auto;
-        }
-
-        .quote-text {
-            font-size: clamp(1rem, 4vw, 1.5rem);
-            line-height: 1.6;
-            color: var(--primary);
-            text-align: center;
-            padding: 0 1rem;
-        }
-
-        .quote-text span {
-            display: inline-block;
-            transition: all 0.3s ease;
-        }
-
-        .quote-text {
-            color: white;
-        }
-
-        .quote-content span {
-            display: inline-block;
-            transition: all 0.3s ease;
-            text-shadow: 0 0 10px white;
-            position: relative;
-            animation: ekg-pulse 1.5s ease-in-out infinite;
-        }
-
-        .quote-content span:hover {
-            color: var(--secondary);
-            filter: blur(2px);
-            transform: translateY(-2px);
-            text-shadow: 0 0 10px var(--secondary);
-        }
-
-        .quote-author {
-            margin-top: 1rem;
-            font-style: italic;
-            color: white;
-            text-shadow: 0 0 10px white;
-            animation: ekg-pulse 1.5s ease-in-out infinite;
-        }
-
-        .content-details {
-            margin-top: 2rem;
-            padding: 2rem;
-            background: rgba(0, 0, 0, 0.8);
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            color: white;
-            animation: fadeIn 0.5s ease-in-out;
-            display: flex;
-            flex-direction: column;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .content-details h2 {
-            color: var(--primary);
-            margin-bottom: 1.5rem;
-        }
-
-        .content-details h3 {
-            color: var(--secondary);
-            margin: 1rem 0;
-        }
-
-        .ratings-box {
-            background: rgba(0, 0, 0, 0.5);
-            border: 1px solid var(--primary);
-            border-radius: 10px;
-            padding: 2rem;
-            margin: 2rem 0;
-        }
-
-        .ratings-box p {
-            margin: 0.8rem 0;
-            font-size: 1.1em;
-        }
-
-        .ratings-box .highlight {
-            color: var(--primary);
-            font-weight: bold;
-        }
-
-        .overall-rating {
-            font-size: 1.3em;
-            margin-top: 1.5rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid var(--primary);
-        }
-
-        .glass-card {
-            opacity: var(--glass-card-opacity) !important;
-        }
-
-        .content-details {
-            display: var(--content-details-display) !important;
-        }
-
-        @keyframes ekg-pulse {
-            0%, 100% { opacity: 1; text-shadow: 0 0 10px white; }
-            50% { opacity: 0.5; text-shadow: 0 0 20px white; }
-        }
-    </style>
-</head>
-<body>
-    <audio id="bgMusic" src="https://od.lk/s/MzhfMjg2MDQ2MDJf/veazy%20x%20dpbeats.mp3" preload="auto" loop style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;"></audio>
-    <button id="musicToggle" style="position: fixed; bottom: 20px; right: 20px; z-index: 1001; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid var(--primary); color: var(--primary); padding: 10px; border-radius: 50%; cursor: pointer; transition: all 0.3s ease;">
-        <i class="fas fa-music"></i>
-    </button>
-    <div id="preloader" style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: var(--dark); display: flex; justify-content: center; align-items: center; z-index: 10000; transition: opacity 0.5s;">
-        <div style="color: var(--primary); font-size: 2em; text-align: center;">
-            <div style="margin-bottom: 1rem;">Loading MusicRx</div>
-            <div style="width: 150px; height: 3px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden;">
-                <div id="progress-bar" style="width: 0%; height: 100%; background: var(--primary); transition: width 0.3s;"></div>
-            </div>
-        </div>
-    </div>
-    <div id="landing-page" class="active">
-        <div class="landing-content">
-            <h1 class="landing-title">Welcome to MusicRx</h1>
-            <p class="landing-subtitle" style="font-size: 0.8em;">React to Enter</p>
-            <div class="quote-container" style="margin: 2rem auto; background: none;">
-                <p class="quote-text" style="font-family: 'Space Grotesk', sans-serif;"></p>
-            </div>
-        </div>
-    </div>
-    <div id="cursor"></div>
-    <div id="cursor-blur"></div>
-
-    <nav>
-        <ul class="nav-links">
-
-            <li><a href="reviews.html">Reviews</a></li>
-            <li><a href="#news">News</a></li>
-            <li><a href="#opinions">Opinions</a></li>
-            <li><a href="#interviews">Interviews</a></li>
-        </ul>
-    </nav>
-
-    <canvas id="universe"></canvas>
-
-    <section class="hero">
-        <h1 class="glitch" data-text="MusicRx">MusicRx</h1>
-        <p class="bio heartbeat-text" style="font-size: 1rem; white-space: nowrap; letter-spacing: 0.2em; position: relative;">
-            MUSIC IS MY THERAPY
-            <span class="heartbeat-line"></span>
-        </p>
-
-        <div class="social-links">
-            <a href="https://instagram.com/airveazy" class="social-button" target="_blank">
-                <i class="fab fa-instagram fa-2x"></i>
-            </a>
-            <a href="https://x.com/36966_" class="social-button" target="_blank">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                </svg>
-            </a>
-            <a href="https://tiktok.com/@okveazy" class="social-button" target="_blank">
-                <i class="fab fa-tiktok fa-2x"></i>
-            </a>
-            <a href="https://github.com/vzdzt" class="social-button" target="_blank">
-                <i class="fab fa-github fa-2x"></i>
-            </a>
-        </div>
-    </section>
-
-    <section id="reviews" class="content-section">
-        <div class="container">
-            <div class="grid">
-                <div class="glass-card" onclick="showContent('reviews')" style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border-radius: 20px; padding: 2rem; border: 1px solid rgba(255, 255, 255, 0.2); cursor: pointer;">
-                    <h2>Latest Reviews</h2>
-                    <p>Travis Scott - RODEO</p>
-                    <p>SZA - SOS</p>
-                    <p>Tyler, The Creator - CALL ME IF YOU GET LOST</p>
-                </div>
-                <div class="glass-card" onclick="showContent('artists')" style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border-radius: 20px; padding: 2rem; border: 1px solid rgba(255, 255, 255, 0.2); cursor: pointer;">
-                    <h2>Featured Artists</h2>
-                    <p>Drake</p>
-                    <p>Kendrick Lamar</p>
-                    <p>Taylor Swift</p>
-                </div>
-                <div class="glass-card" onclick="showContent('trending')" style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border-radius: 20px; padding: 2rem; border: 1px solid rgba(255, 255, 255, 0.2); cursor: pointer;">
-                    <h2>Trending</h2>
-                    <p>Hip Hop Evolution</p>
-                    <p>Pop Renaissance</p>
-                    <p>Alternative Scene</p>
-                </div>
-            </div>
-
-            <div id="content-interviews" class="content-details" style="display: flex; flex-direction: column; opacity: 1; background: rgba(0, 0, 0, 0.8); padding: 2rem; border-radius: 15px; margin-top: 2rem; position: relative; z-index: 10; transition: opacity 0.3s ease-in-out;">
-                <h2>Interviews</h2>
-                <div class="interview-content">
-                    <h3>Upcoming Interviews</h3>
-                    <p>Coming soon...</p>
-                </div>
-            </div>
-
-            <div id="content-news" class="content-details" style="display: flex; flex-direction: column; opacity: 1; background: rgba(0, 0, 0, 0.8); padding: 2rem; border-radius: 15px; margin-top: 2rem; position: relative; z-index: 10; transition: opacity 0.3s ease-in-out;">
-                <h2>News</h2>
-                <div class="news-content">
-                    <h3>Latest Updates</h3>
-                    <p>Coming soon...</p>
-                </div>
-            </div>
-
-            <div id="content-opinions" class="content-details" style="display: flex; flex-direction: column; opacity: 1; background: rgba(0, 0, 0, 0.8); padding: 2rem; border-radius: 15px; margin-top: 2rem; position: relative; z-index: 10; transition: opacity 0.3s ease-in-out;">
-                <h2>Opinions</h2>
-                <div class="opinions-content">
-                    <h3>Hot Takes</h3>
-                    <p>Coming soon...</p>
-                </div>
-            </div>
-
-            <div id="content-reviews" class="content-details" style="display: flex; flex-direction: column; opacity: 1; background: rgba(0, 0, 0, 0.8); padding: 2rem; border-radius: 15px; margin-top: 2rem; position: relative; z-index: 10; transition: opacity 0.3s ease-in-out;">
-                <h2>Latest Reviews</h2>
-                <div class="review-content">
-                    <h3>Travis Scott - RODEO</h3>
-                    <p>Hip-hop soared into uncharted territory on <span class="highlight">September 4, 2015</span>, when Travis Scott dropped <em>Rodeo</em>, his debut studio album under Grand Hustle and Epic Records. Building on the buzz of his 2014 mixtape <em>Days Before Rodeo</em>, this 14-track odyssey cemented Scott’s status as a visionary producer and polarizing rapper. As of <span class="highlight">February 19, 2025</span>, <em>Rodeo</em> remains a polarizing yet iconic staple of trap music—let’s dive into its hazy, star-studded world.</p>
-<br>
-                    <h2>The Messaging and Theme</h2>
-                    <p><em>Rodeo</em>’s cover art—a surreal, neon-lit rodeo silhouette featuring a hyper-realistic action figure of Travis Scott, hand-sculpted by artist <span class="highlight">Dan Chung</span>, designed by Travis Scott and visual artist <span class="highlight">David Stromberg</span>—oozes otherworldly swagger, a perfect visual for an album that narrates Scott’s chaotic rise to fame. Narrated by T.I., the album loosely frames itself as a rebel’s journey through excess, fame, and escapism, inspired by Scott’s Houston roots and L.A. nightlife. Tracks like <span class="highlight">“90210”</span> and <span class="highlight">“Maria I’m Drunk”</span> paint vivid scenes of luxury and rebellion, while <span class="highlight">“Apple Pie”</span> closes with reflective melancholy, questioning the cost of success. It’s less a linear story and more a psychedelic mood piece, capturing trap’s peak with a focus on vibe over depth.</p>
-                    <br>
-                    <h2>Production and Sound</h2>
-                    <p>Scott’s production prowess shines, with him credited as a co-producer on every track alongside <span class="highlight">Metro Boomin, Mike Dean, WondaGurl, Sonny Digital</span>, and others. <em>Rodeo</em> blends trap’s booming 808s with psychedelic synths, distorted guitars, and reverb-heavy vocals, creating a hypnotic, spacey soundscape. <span class="highlight">“Nightcrawler”</span> pulses with dark, bass-heavy menace, while <span class="highlight">“Antidote”</span> delivers an infectious, auto-tuned hook that became an anthem. The album’s use of auto-tune and vocal distortion—drawing from Kid Cudi and Kanye West—adds a dreamy, disorienting layer, prioritizing atmosphere over precision.</p>
-                    <br>
-                    <h2>Features</h2>
-                    <p><em>Rodeo</em> boasts a star-studded lineup of guests, amplifying its cultural impact. <span class="highlight">Future, 2 Chainz, Juicy J, The Weeknd, Swae Lee, Chief Keef, Kanye West, Justin Bieber, Young Thug, Quavo, Toro y Moi, and Schoolboy Q</span> bring diverse energy, often stealing the spotlight. The Weeknd’s haunting vocals on <span class="highlight">“Pray 4 Love”</span> and Bieber’s unexpected turn on <span class="highlight">“Maria I’m Drunk”</span> are highlights, while Quavo’s verse on <span class="highlight">“Oh My Dis Side”</span> adds a trap punch. These features elevate Scott’s vision but sometimes overshadow his own rapping, raising questions about his role as a rapper versus curator.</p>
-                    <br>
-                    <h2>Tracks to Watch</h2>
-                    <ul>
-                        <li><span class="highlight">“90210”</span> - A cinematic opener blending haunting piano and Scott’s auto-tuned storytelling.</li>
-                        <li><span class="highlight">“Antidote”</span> - The breakout hit, a hypnotic trap banger with a sticky hook.</li>
-                        <li><span class="highlight">“Maria I’m Drunk” (feat. Justin Bieber & Young Thug)</span> - A wild, star-powered party anthem.</li>
-                        <li><span class="highlight">“Nightcrawler” (feat. Swae Lee & Chief Keef)</span> - A dark, bass-heavy standout for late-night vibes.</li>
-                    </ul>
-                    <br>
-                    <h2>Previous Works</h2>
-                    <p>Before <em>Rodeo</em>, Travis Scott built his name with mixtapes like <em>Owl Pharaoh</em> (2013) and <em>Days Before Rodeo</em> (2014), showcasing his production skills and auto-tuned flow. Those projects laid the groundwork for <em>Rodeo</em>’s psychedelic trap sound, drawing from Houston’s chopped-and-screwed tradition and Scott’s collaborations with artists like T.I. and Kanye West. <em>Rodeo</em> marks his evolution from mixtape phenom to major-label star, refining the hazy aesthetic that would later define <em>Astroworld</em>.</p>
-                    <br>
-                    <h2>Summary</h2>
-                    <p><em>Rodeo</em> is a <span class="highlight">65-minute thrill ride</span> that thrives on production and atmosphere, even if its lyrical depth falters. Scott’s visionary beats and all-star features create a psychedelic trap masterpiece, but the album’s length and Scott’s uneven rapping—often criticized as monotonous or substance-lacking—can wear thin. It’s not perfect, but its cultural impact is undeniable, spawning hits like <span class="highlight">“Antidote”</span> and influencing trap’s evolution. As of <span class="highlight">February 19, 2025</span>, <em>Rodeo</em> remains a fan favorite and a polarizing classic, less about complexity and more about Scott’s bold, hazy vision.</p>
-                    <br>
-                    <div class="ratings-box">
-                        <h2>Ratings</h2>
-                        <p><span class="highlight">Originality (17/20):</span> A fresh take on trap, blending psychedelic elements with Houston’s roots.</p>
-                        <p><span class="highlight">Production Quality (19/20):</span> Stellar beats by Scott and co-producers are the album’s backbone.</p>
-                        <p><span class="highlight">Lyrics and Messaging (12/20):</span> Lyrical content leans heavily on party themes, lacking depth.</p>
-                        <p><span class="highlight">Enjoyment Factor (18/20):</span> Addictive for fans of trap’s vibe, though inconsistent pacing may tire some.</p>
-                        <p><span class="highlight">Consistency (15/20):</span> Strong front-to-back but drags in spots, especially toward the end.</p>
-                        <p class="overall-rating"><span class="highlight">Overall Rating (81/100):</span> 8.1/10</p>
-                    </div>
-                    <br>
-                    <p><em>Rodeo</em> isn’t flawless, but it’s a defining moment in trap music, showcasing Scott’s production genius and star power. Love it for its highs, forgive its lows, and blast it loud—this album proves that sometimes, a killer beat and vibe can carry the day, even if the words don’t always match.</p>
-                </div>
-            </div>
-
-            <div id="content-artists" class="content-details" style="display: flex; flex-direction: column; background: rgba(0, 0, 0, 0.8); padding: 2rem; border-radius: 15px; margin-top: 2rem; position: relative; z-index: 10;">
-                <h2>Featured Artists</h2>
-                <div class="artist-content">
-                    <h3>Drake</h3>
-                    <p>Artist profile coming soon...</p>
-                </div>
-            </div>
-
-            <div id="content-trending" class="content-details" style="display: flex; flex-direction: column; background: rgba(0, 0, 0, 0.8); padding: 2rem; border-radius: 15px; margin-top: 2rem; position: relative; z-index: 10;">
-                <h2>Trending</h2>
-                <div class="trending-content">
-                    <h3>Hip Hop Evolution</h3>
-                    <p>Trend analysis coming soon...</p>
-                </div>
-            </div>
-        </div>
-        <div class="quote-container" style="margin: 4rem auto; background: rgba(0, 0, 0, 0.3); max-width: 800px;">
-            <p class="quote-text" style="font-family: 'Space Grotesk', sans-serif; font-size: 1.2em;"></p>
-            <button class="button" onclick="getNewQuote()" style="margin: 1rem auto; padding: 0.5rem 1rem; font-size: 0.9em;">New Quote</button>
-        </div>
-    </div>
-
-
-    <script>
-        function showContent(contentType) {
-            const allContents = document.querySelectorAll('.content-details');
-            allContents.forEach(content => {
-                content.style.display = 'none';
-            });
-
-            const selectedContent = document.getElementById(`content-${contentType}`);
-            if (selectedContent) {
-                selectedContent.style.display = 'block';
-            }
-        }
-
-        // Initialize preloader
-        window.addEventListener('load', () => {
-            const preloader = document.getElementById('preloader');
-            let width = 0;
-            const interval = setInterval(() => {
-                width += 2;
-                const progressBar = document.getElementById('progress-bar');
-                if (progressBar) {
-                    progressBar.style.width = width + '%';
-                }
-                if (width >= 100) {
-                    clearInterval(interval);
-                    if (preloader) {
-                        preloader.style.opacity = '0';
-                        setTimeout(() => {
-                            preloader.style.display = 'none';
-                        }, 500);
-                    }
-                }
-            }, 20);
-        });
-
-        // Landing page handler
-        document.getElementById('landing-page').addEventListener('click', (event) => {
-            const landingPage = document.getElementById('landing-page');
-            landingPage.classList.add('fade-out');
-
-            // Create massive supernova at click position
-            const rect = renderer.domElement.getBoundingClientRect();
-            const x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-            const y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-            const vector = new THREE.Vector3(x * 1000, y * 1000, 0);
-
-            const supernova = createSupernova(vector.x, vector.y, vector.z);
-            supernova.points.scale.multiplyScalar(5); // Make it 5 times bigger
-            supernovas.push({ 
-                ...supernova, 
-                age: 0,
-                maxAge: 150 // Make it last longer
-            });
-        });
-
-        // Custom cursor
-        const cursor = document.getElementById('cursor');
-        const cursorBlur = document.getElementById('cursor-blur');
-
-        let cursorX = 0, cursorY = 0;
-        document.addEventListener('mousemove', (e) => {
-            cursorX = e.clientX;
-            cursorY = e.clientY;
-        });
-
-        function updateCursor() {
-            requestAnimationFrame(updateCursor);
-            cursor.style.transform = `translate(${cursorX}px, ${cursorY}px)`;
-            cursorBlur.style.transform = `translate(${cursorX}px, ${cursorY}px)`;
-        }
-        updateCursor();
-
-        // Three.js background
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-
-        // Supernova effect
-        function createSupernova(x, y, z) {
-            const particles = new THREE.BufferGeometry();
-            const particleCount = 5000;
-            const positions = new Float32Array(particleCount * 3);
-            const colors = new Float32Array(particleCount * 3);
-            const velocities = [];
-
-            for (let i = 0; i < particleCount; i++) {
-                const theta = Math.random() * Math.PI * 2;
-                const phi = Math.random() * Math.PI * 2;
-                const radius = Math.random() * 5;
-                const velocity = Math.random() * 30 + 20;
-
-                positions[i * 3] = x + Math.sin(theta) * Math.cos(phi) * radius;
-                positions[i * 3 + 1] = y + Math.sin(theta) * Math.sin(phi) * radius;
-                positions[i * 3 + 2] = z + Math.cos(theta) * radius;
-
-                velocities.push({
-                    x: velocity * Math.sin(theta) * Math.cos(phi),
-                    y: velocity * Math.sin(theta) * Math.sin(phi),
-                    z: velocity * Math.cos(theta)
-                });
-
-                colors[i * 3] = 1;  // Red
-                colors[i * 3 + 1] = Math.random() * 0.5 + 0.5;  // Yellow/Orange
-                colors[i * 3 + 2] = Math.random() * 0.2;  // Slight blue
-            }
-
-            particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-            particles.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-
-            const material = new THREE.PointsMaterial({
-                size: 8,
-                vertexColors: true,
-                transparent: true,
-                opacity: 1,
-                sizeAttenuation: true,
-                blending: THREE.AdditiveBlending,
-                depthWrite: false
-            });
-
-            const points = new THREE.Points(particles, material);
-            scene.add(points);
-
-            return { points, velocities };
-        }
-        const renderer = new THREE.WebGLRenderer({ 
-            canvas: document.getElementById('universe'), 
-            alpha: true,
-            antialias: true 
-        });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(window.devicePixelRatio);
-
-        const geometry = new THREE.BufferGeometry();
-        const vertices = [];
-        const sizes = [];
-        const colors = [];
-
-        for (let i = 0; i < 15000; i++) {
-            vertices.push(
-                Math.random() * 2000 - 1000,
-                Math.random() * 2000 - 1000,
-                Math.random() * 2000 - 1000
-            );
-        }
-
-        function playRandomSound() {
-            const sounds = [
-                document.getElementById('hover-sound-1'),
-                document.getElementById('hover-sound-2'),
-                document.getElementById('hover-sound-3')
-            ];
-            const sound = sounds[Math.floor(Math.random() * sounds.length)];
-            sound.currentTime = 0;
-            sound.volume = 0.2;
-            sound.play();
-        }
-
-        // Add hover sound effects to all interactive elements
-        document.querySelectorAll('.nav-links a, .social-button, .glass-card, .button').forEach(element => {
-            element.addEventListener('mouseenter', playRandomSound);
-        });
-
-        // Three.js setup
-        const scene2 = new THREE.Scene(); // Created a new scene
-        const camera2 = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000); // Created a new camera
-        const renderer2 = new THREE.WebGLRenderer({ 
-            canvas: document.getElementById('universe'), 
-            alpha: true,
-            antialias: true 
-        }); //Reused the same renderer, this was the source of the error
-
-        // Initialize geometry
-        const geometry2 = new THREE.BufferGeometry(); // Created a new geometry
-        const vertices2 = []; // Created a new vertices array
-        const sizes2 = []; // Created a new sizes array
-        const colors2 = []; // Created a new colors array
-
-        for (let i = 0; i < 15000; i++) {
-            vertices2.push(
-                Math.random() * 2000 - 1000,
-                Math.random() * 2000 - 1000,
-                Math.random() * 2000 - 1000
-            );
-            const color = new THREE.Color();
-            color.setHSL(Math.random(), 0.8, 0.8);
-            colors2.push(color.r, color.g, color.b);
-            sizes2.push(Math.random() * 2);
-        }
-        geometry2.setAttribute('position', new THREE.Float32BufferAttribute(vertices2, 3));
-        geometry2.setAttribute('color', new THREE.Float32BufferAttribute(colors2, 3));
-        geometry2.setAttribute('size', new THREE.Float32BufferAttribute(sizes2, 1));
-
-        const material2 = new THREE.PointsMaterial({
-            size: 1,
-            vertexColors: true,
+// Three.js setup
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+const renderer = new THREE.WebGLRenderer({ 
+    canvas: document.getElementById('universe'), 
+    alpha: true,
+    antialias: true 
+});
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(window.devicePixelRatio);
+camera.position.z = 1000;
+
+// Initialize geometry
+const geometry = new THREE.BufferGeometry();
+const vertices = [];
+const colors = [];
+
+for (let i = 0; i < 15000; i++) {
+    vertices.push(
+        Math.random() * 2000 - 1000,
+        Math.random() * 2000 - 1000,
+        Math.random() * 2000 - 1000
+    );
+    const color = new THREE.Color();
+    color.setHSL(Math.random(), 0.8, 0.8);
+    colors.push(color.r, color.g, color.b);
+}
+
+geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+
+const material = new THREE.PointsMaterial({
+    size: 1,
+    vertexColors: true,
+    transparent: true,
+    opacity: 0.8
+});
+
+const points = new THREE.Points(geometry, material);
+scene.add(points);
+
+// Track mouse position
+let mouseX = 0, mouseY = 0;
+document.addEventListener('mousemove', (e) => {
+    mouseX = (e.clientX - window.innerWidth / 2) * 0.001;
+    mouseY = (e.clientY - window.innerHeight / 2) * 0.001;
+});
+
+// Comet effect
+class Comet {
+    constructor() {
+        this.position = new THREE.Vector3(
+            Math.random() * 2000 - 1000,
+            Math.random() * 2000 - 1000,
+            Math.random() * 2000 - 1000
+        );
+        this.velocity = new THREE.Vector3(
+            (Math.random() - 0.5) * 10,
+            (Math.random() - 0.5) * 10,
+            (Math.random() - 0.5) * 10
+        );
+        this.trail = [];
+        this.trailLength = 20;
+
+        const geometry = new THREE.SphereGeometry(2, 8, 8);
+        const material = new THREE.MeshBasicMaterial({
+            color: new THREE.Color(0x00f7ff),
             transparent: true,
             opacity: 0.8
         });
+        this.mesh = new THREE.Mesh(geometry, material);
+        this.mesh.position.copy(this.position);
+        scene.add(this.mesh);
+    }
 
-        const points2 = new THREE.Points(geometry2, material2); // Created a new points object
-        scene2.add(points2); // Added the points to the new scene
+    update() {
+        this.position.add(this.velocity);
+        this.mesh.position.copy(this.position);
 
-        camera2.position.z = 1000;
+        this.trail.push(this.position.clone());
+        if (this.trail.length > this.trailLength) {
+            this.trail.shift();
+        }
 
-        let mouseX = 0, mouseY = 0;
-        document.addEventListener('mousemove', (event) => {
-            mouseX = (event.clientX - window.innerWidth / 2) * 0.001;
-            mouseY = (event.clientY - window.innerHeight / 2) * 0.001;
+        if (Math.abs(this.position.x) > 1000 || 
+            Math.abs(this.position.y) > 1000 || 
+            Math.abs(this.position.z) > 1000) {
+            this.position.set(
+                Math.random() * 2000 - 1000,
+                Math.random() * 2000 - 1000,
+                Math.random() * 2000 - 1000
+            );
+            this.trail = [];
+        }
+    }
+}
+
+const comets = Array(5).fill(null).map(() => new Comet());
+const supernovas = [];
+
+function createSupernova(x, y, z) {
+    const particles = new THREE.BufferGeometry();
+    const particleCount = 5000;
+    const positions = new Float32Array(particleCount * 3);
+    const colors = new Float32Array(particleCount * 3);
+    const velocities = [];
+
+    for (let i = 0; i < particleCount; i++) {
+        const theta = Math.random() * Math.PI * 2;
+        const phi = Math.random() * Math.PI * 2;
+        const radius = Math.random() * 5;
+        const velocity = Math.random() * 30 + 20;
+
+        positions[i * 3] = x + Math.sin(theta) * Math.cos(phi) * radius;
+        positions[i * 3 + 1] = y + Math.sin(theta) * Math.sin(phi) * radius;
+        positions[i * 3 + 2] = z + Math.cos(theta) * radius;
+
+        velocities.push({
+            x: velocity * Math.sin(theta) * Math.cos(phi),
+            y: velocity * Math.sin(theta) * Math.sin(phi),
+            z: velocity * Math.cos(theta)
         });
 
-        // Comet effect
-        class Comet {
-            constructor() {
-                this.position = new THREE.Vector3(
-                    Math.random() * 2000 - 1000,
-                    Math.random() * 2000 - 1000,
-                    Math.random() * 2000 - 1000
-                );
-                this.velocity = new THREE.Vector3(
-                    (Math.random() - 0.5) * 10,
-                    (Math.random() - 0.5) * 10,
-                    (Math.random() - 0.5) * 10
-                );
-                this.trail = [];
-                this.trailLength = 20;
+        colors[i * 3] = 1;
+        colors[i * 3 + 1] = Math.random() * 0.5 + 0.5;
+        colors[i * 3 + 2] = Math.random() * 0.2;
+    }
 
-                const geometry = new THREE.SphereGeometry(2, 8, 8);
-                const material = new THREE.MeshBasicMaterial({
-                    color: new THREE.Color(0x00f7ff),
-                    transparent: true,
-                    opacity: 0.8
+    particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    particles.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+    const material = new THREE.PointsMaterial({
+        size: 8,
+        vertexColors: true,
+        transparent: true,
+        opacity: 1,
+        sizeAttenuation: true,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false
+    });
+
+    const points = new THREE.Points(particles, material);
+    scene.add(points);
+
+    return { points, velocities };
+}
+
+function updateSupernovas() {
+    for (let i = supernovas.length - 1; i >= 0; i--) {
+        const supernova = supernovas[i];
+        const positions = supernova.points.geometry.attributes.position.array;
+        const colors = supernova.points.geometry.attributes.color.array;
+
+        for (let j = 0; j < positions.length; j += 3) {
+            positions[j] += supernova.velocities[j/3].x;
+            positions[j + 1] += supernova.velocities[j/3].y;
+            positions[j + 2] += supernova.velocities[j/3].z;
+
+            const alpha = 1 - (supernova.age / supernova.maxAge);
+            colors[j] *= alpha;
+            colors[j + 1] *= alpha;
+            colors[j + 2] *= alpha;
+        }
+
+        supernova.points.geometry.attributes.position.needsUpdate = true;
+        supernova.points.geometry.attributes.color.needsUpdate = true;
+        supernova.points.material.opacity = 1 - (supernova.age / supernova.maxAge);
+
+        supernova.age++;
+
+        if (supernova.age >= supernova.maxAge) {
+            scene.remove(supernova.points);
+            supernovas.splice(i, 1);
+        }
+    }
+}
+
+function animate() {
+    requestAnimationFrame(animate);
+    comets.forEach(comet => comet.update());
+
+    points.rotation.x += 0.0002;
+    points.rotation.y += 0.0003;
+
+    points.rotation.x += (mouseY - points.rotation.x) * 0.05;
+    points.rotation.y += (mouseX - points.rotation.y) * 0.05;
+
+    const time = Date.now() * 0.001;
+    points.scale.x = points.scale.y = points.scale.z = Math.sin(time) * 0.15 + 1;
+
+    const positions = points.geometry.attributes.position.array;
+    const colors = points.geometry.attributes.color.array;
+    for(let i = 0; i < colors.length; i += 3) {
+        colors[i] = Math.sin(time + positions[i] * 0.001) * 0.5 + 0.5;
+        colors[i + 1] = Math.cos(time + positions[i + 1] * 0.001) * 0.5 + 0.5;
+        colors[i + 2] = Math.sin(time + positions[i + 2] * 0.002) * 0.5 + 0.5;
+    }
+    points.geometry.attributes.color.needsUpdate = true;
+
+    updateSupernovas();
+    renderer.render(scene, camera);
+}
+
+// Initialize
+animate();
+
+// Event Listeners
+document.getElementById('universe').addEventListener('click', (event) => {
+    const rect = renderer.domElement.getBoundingClientRect();
+    const x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+    const y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+    const vector = new THREE.Vector3(x * 1000, y * 1000, 0);
+    const supernova = createSupernova(vector.x, vector.y, vector.z);
+    supernovas.push({ 
+        ...supernova, 
+        age: 0,
+        maxAge: 100 
+    });
+});
+
+window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
+// Initialize preloader
+window.addEventListener('load', () => {
+    const preloader = document.getElementById('preloader');
+    let width = 0;
+    const interval = setInterval(() => {
+        width += 2;
+        const progressBar = document.getElementById('progress-bar');
+        if (progressBar) {
+            progressBar.style.width = width + '%';
+        }
+        if (width >= 100) {
+            clearInterval(interval);
+            if (preloader) {
+                preloader.style.opacity = '0';
+                setTimeout(() => {
+                    preloader.style.display = 'none';
+                }, 500);
+            }
+        }
+    }, 20);
+});
+
+// Landing page handler
+document.getElementById('landing-page').addEventListener('click', () => {
+    const landingPage = document.getElementById('landing-page');
+    landingPage.classList.add('fade-out');
+    setTimeout(initializeQuotes, 100);
+});
+
+// Custom cursor
+const cursor = document.getElementById('cursor');
+const cursorBlur = document.getElementById('cursor-blur');
+
+document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    cursor.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+    cursorBlur.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+});
+
+// Sound effects
+function playRandomSound() {
+    // Disabled for now to prevent errors
+    return;
+}
+
+// Add hover sound effects
+document.querySelectorAll('.nav-links a, .social-button, .glass-card, .button').forEach(element => {
+    element.addEventListener('mouseenter', playRandomSound);
+});
+
+// Quotes system
+const quotes = [
+    { text: "Music expresses that which cannot be put into words and that which cannot remain silent.", author: "Victor Hugo" },
+    { text: "One good thing about music, when it hits you, you feel no pain.", author: "Bob Marley" },
+    { text: "Music is the universal language of mankind.", author: "Henry Wadsworth Longfellow" },
+    { text: "Success is not final, failure is not fatal: it is the courage to continue that counts.", author: "Winston Churchill" },
+    { text: "Without music, life would be a mistake.", author: "Friedrich Nietzsche" },
+    { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
+    { text: "Fall seven times, stand up eight.", author: "Japanese Proverb" },
+    { text: "It does not matter how slowly you go as long as you do not stop.", author: "Confucius" },
+    { text: "Life is not about waiting for the storm to pass, it's about learning to dance in the rain.", author: "Vivian Greene" },
+    { text: "The future belongs to those who believe in the beauty of their dreams.", author: "Eleanor Roosevelt" },
+    { text: "Strength does not come from winning. Your struggles develop your strengths.", author: "Arnold Schwarzenegger" },
+    { text: "Success is walking from failure to failure with no loss of enthusiasm.", author: "Winston Churchill" },
+    { text: "The only limit to our realization of tomorrow will be our doubts of today.", author: "Franklin D. Roosevelt" },
+    { text: "What lies behind us and what lies before us are tiny matters compared to what lies within us.", author: "Ralph Waldo Emerson" },
+    { text: "When you reach the end of your rope, tie a knot in it and hang on.", author: "Franklin D. Roosevelt" },
+    { text: "You never fail until you stop trying.", author: "Albert Einstein" },
+    { text: "The harder you work for something, the greater you'll feel when you achieve it.", author: "Anonymous" },
+    { text: "Don't watch the clock; do what it does. Keep going.", author: "Sam Levenson" },
+    { text: "Believe you can and you're halfway there.", author: "Theodore Roosevelt" },
+    { text: "Success is not built on success. It's built on failure. It's built on frustration. Sometimes it's built on catastrophe.", author: "Sumner Redstone" },
+    { text: "The music is not in the notes, but in the silence between.", author: "Wolfgang Amadeus Mozart" },
+    { text: "Music washes away from the soul the dust of everyday life.", author: "Berthold Auerbach" },
+    { text: "Music is a higher revelation than all wisdom and philosophy.", author: "Ludwig van Beethoven" },
+    { text: "Life seems to go on without effort when I am filled with music.", author: "George Eliot" },
+    { text: "Music is the soundtrack of your life.", author: "Dick Clark" },
+    { text: "Music touches us emotionally, where words alone can't.", author: "Johnny Depp" },
+    { text: "If music be the food of love, play on.", author: "William Shakespeare" },
+    { text: "Music is the great uniter. An incredible force.", author: "Dave Matthews" },
+    { text: "Music is like a dream. One that I cannot hear.", author: "Ludwig van Beethoven" },
+    { text: "Music is the divine way to tell beautiful, poetic things to the heart.", author: "Pablo Casals" },
+    { text: "The people who are crazy enough to think they can change the world are the ones who do.", author: "Steve Jobs" },
+    { text: "Stay hungry, stay foolish.", author: "Steve Jobs" },
+    { text: "When something is important enough, you do it even if the odds are not in your favor.", author: "Elon Musk" },
+    { text: "I think it is possible for ordinary people to choose to be extraordinary.", author: "Elon Musk" },
+    { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
+    { text: "Persistence is very important. You should not give up unless you are forced to give up.", author: "Elon Musk" },
+    { text: "Innovation distinguishes between a leader and a follower.", author: "Steve Jobs" },
+    { text: "Life is what happens when you're busy making other plans.", author: "John Lennon" },
+    { text: "The future belongs to those who believe in the beauty of their dreams.", author: "Eleanor Roosevelt" }
+];
+
+function getNewQuote() {
+    const quoteTexts = document.querySelectorAll('.quote-text');
+    const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+    const quoteContent = `
+        <div class="quote-content">${randomQuote.text.split('').map(char => 
+            char === ' ' ? ' ' : `<span>${char}</span>`
+        ).join('')}</div>
+        <div class="quote-author">- ${randomQuote.author}</div>
+    `;
+    quoteTexts.forEach(quoteText => {
+        quoteText.innerHTML = quoteContent;
+    });
+}
+
+function showContent(contentType) {
+    // Hide all content sections first
+    document.querySelectorAll('.content-details').forEach(content => {
+        content.style.opacity = '0';
+        setTimeout(() => {
+            content.style.display = 'none';
+        }, 300);
+    });
+
+    // Show selected content
+    const selectedContent = document.getElementById(`content-${contentType}`);
+    if (selectedContent) {
+        selectedContent.style.display = 'block';
+        // Force a reflow
+        selectedContent.offsetHeight;
+        selectedContent.style.opacity = '1';
+        selectedContent.scrollIntoView({ 
+            behavior: 'smooth',
+            block: 'start'
+        });
+    }
+}
+
+// Initialize content display
+document.addEventListener('DOMContentLoaded', () => {
+    // Hide all content sections initially
+    document.querySelectorAll('.content-details').forEach(content => {
+        content.style.display = 'none';
+    });
+});
+
+function initializeQuotes() {
+    const quoteContainers = document.querySelectorAll('.quote-text');
+    if (quoteContainers.length > 0) {
+        getNewQuote();
+    }
+}
+
+document.addEventListener('DOMContentLoaded', initializeQuotes);
+
+// Music player functionality
+const bgMusic = document.getElementById('bgMusic');
+const musicToggle = document.getElementById('musicToggle');
+
+if (bgMusic && musicToggle) {
+    bgMusic.volume = 0.5;
+
+    musicToggle.addEventListener('click', () => {
+        if (bgMusic.paused) {
+            bgMusic.play()
+                .then(() => {
+                    musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
+                })
+                .catch(err => {
+                    console.error('Audio playback error:', err);
                 });
-                this.mesh = new THREE.Mesh(geometry, material);
-                this.mesh.position.copy(this.position);
-                scene2.add(this.mesh); // Added mesh to the new scene
-            }
-
-            update() {
-                this.position.add(this.velocity);
-                this.mesh.position.copy(this.position);
-
-                // Add current position to trail
-                this.trail.push(this.position.clone());
-                if (this.trail.length > this.trailLength) {
-                    this.trail.shift();
-                }
-
-                // Reset if out of bounds
-                if (Math.abs(this.position.x) > 1000 || 
-                    Math.abs(this.position.y) > 1000 || 
-                    Math.abs(this.position.z) > 1000) {
-                    this.position.set(
-                        Math.random() * 2000 - 1000,
-                        Math.random() * 2000 - 1000,
-                        Math.random() * 2000 - 1000
-                    );
-                    this.trail = [];
-                }
-            }
+        } else {
+            bgMusic.pause();
+            musicToggle.innerHTML = '<i class="fas fa-music"></i>';
         }
+    });
+}
 
-        const comets = Array(5).fill(null).map(() => new Comet());
+// Add 3D tilt effect to cards
+document.querySelectorAll('.glass-card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
 
-        function animate() {
-            requestAnimationFrame(animate);
-            comets.forEach(comet => comet.update());
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
 
-            points2.rotation.x += 0.0002; // Changed points to points2
-            points2.rotation.y += 0.0003; // Changed points to points2
+        const rotateX = (y - centerY) / 10;
+        const rotateY = (centerX - x) / 10;
 
-            // Mouse-based rotation
-            points2.rotation.x += (mouseY - points2.rotation.x) * 0.05; // Changed points to points2
-            points2.rotation.y += (mouseX - points2.rotation.y) * 0.05; // Changed points to points2
+        card.style.setProperty('--rotateX', `${rotateX}deg`);
+        card.style.setProperty('--rotateY', `${rotateY}deg`);
+    });
 
-            // Pulsing effect with more variation
-            const time = Date.now() * 0.001;
-            points2.scale.x = points2.scale.y = points2.scale.z = Math.sin(time) * 0.15 + 1; // Changed points to points2
+    card.addEventListener('mouseleave', () => {
+        card.style.setProperty('--rotateX', '0deg');
+        card.style.setProperty('--rotateY', '0deg');
+    });
+});
 
-            // Color shift effect
-            const positions = points2.geometry.attributes.position.array; // Changed points to points2
-            const colors = points2.geometry.attributes.color.array; // Changed points to points2
-            for(let i = 0; i < colors.length; i += 3) {
-                colors[i] = Math.sin(time + positions[i] * 0.001) * 0.5 + 0.5;
-                colors[i + 1] = Math.cos(time + positions[i + 1] * 0.001) * 0.5 + 0.5;
-                colors[i + 2] = Math.sin(time + positions[i + 2] * 0.002) * 0.5 + 0.5;
-            }
-            points2.geometry.attributes.color.needsUpdate = true; // Changed points to points2
+// Reinitialize quotes when landing page is clicked
+document.getElementById('landing-page').addEventListener('click', () => {
+    setTimeout(initializeQuotes, 100);
+});
 
-            updateSupernovas();
-            renderer2.render(scene2, camera2); // Changed renderer and scene
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const section = document.querySelector(this.getAttribute('href'));
+        if (section) {
+            section.scrollIntoView({
+                behavior: 'smooth'
+            });
         }
+    });
+});
 
-        // Track supernovas
-        const supernovas = [];
+// GSAP animations
+gsap.registerPlugin(ScrollTrigger);
 
-        // Click handler for creating supernovas
-        document.getElementById('universe').addEventListener('click', (event) => {
-            const rect = renderer2.domElement.getBoundingClientRect(); // Changed renderer
-            const x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-            const y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+gsap.to('.hero', {
+    yPercent: 50,
+    ease: "none",
+    scrollTrigger: {
+        trigger: '.hero',
+        start: "top top",
+        end: "bottom top",
+        scrub: true
+    }
+});
 
-            const vector = new THREE.Vector3(x * 1000, y * 1000, 0);
+gsap.from('.glass-card', {
+    duration: 1.2,
+    y: 100,
+    opacity: 0,
+    rotation: 5,
+    stagger: 0.2,
+    ease: 'elastic.out(1, 0.75)',
+    scrollTrigger: {
+        trigger: '.grid',
+        start: 'top center+=100',
+        toggleActions: 'play none none reverse'
+    }
+});
 
-            const supernova = createSupernova(vector.x, vector.y, vector.z);
-            supernovas.push({ 
-                ...supernova, 
-                age: 0,
-                maxAge: 100 
-            });
-        });
+document.querySelectorAll('.glass-card').forEach(card => {
+    let bounds = card.getBoundingClientRect();
+    let mouseLeaveDelay;
 
-        function updateSupernovas() {
-            for (let i = supernovas.length - 1; i >= 0; i--) {
-                const supernova = supernovas[i];
-                const positions = supernova.points.geometry.attributes.position.array;
-                const colors = supernova.points.geometry.attributes.color.array;
+    const mouseEnter = (e) => {
+        clearTimeout(mouseLeaveDelay);
+        bounds = card.getBoundingClientRect();
+    };
 
-                for (let j = 0; j < positions.length; j += 3) {
-                    positions[j] += supernova.velocities[j/3].x;
-                    positions[j + 1] += supernova.velocities[j/3].y;
-                    positions[j + 2] += supernova.velocities[j/3].z;
+    const mouseMove = (e) => {
+        const mouseX = e.clientX;
+        const mouseY = e.clientY;
+        const leftX = mouseX - bounds.x;
+        const topY = mouseY - bounds.y;
+        const center = {
+            x: leftX - bounds.width / 2,
+            y: topY - bounds.height / 2
+        };
+        const distance = Math.sqrt(center.x ** 2 + center.y ** 2);
 
-                    const alpha = 1 - (supernova.age / supernova.maxAge);
-                    colors[j] *= alpha;
-                    colors[j + 1] *= alpha;
-                    colors[j + 2] *= alpha;
-                }
+        card.style.transform = `
+            perspective(1000px)
+            scale3d(1.07, 1.07, 1.07)
+            rotate3d(
+                ${center.y / 100},
+                ${-center.x / 100},
+                0,
+                ${Math.log(distance) * 2}deg
+            )
+        `;
+        card.style.filter = `brightness(1.1) contrast(1.1)`;
+    };
 
-                supernova.points.geometry.attributes.position.needsUpdate = true;
-                supernova.points.geometry.attributes.color.needsUpdate = true;
-                supernova.points.material.opacity = 1 - (supernova.age / supernova.maxAge);
-
-                supernova.age++;
-
-                if (supernova.age >= supernova.maxAge) {
-                    scene2.remove(supernova.points); // Removed from the new scene
-                    supernovas.splice(i, 1);
-                }
-            }
-        }
-
-        animate();
-
-        window.addEventListener('resize', () => {
-            camera2.aspect = window.innerWidth / window.innerHeight; // Changed camera
-            camera2.updateProjectionMatrix(); // Changed camera
-            renderer2.setSize(window.innerWidth, window.innerHeight); // Changed renderer
-        });
-
-        // Smooth scroll for navigation
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const section = document.querySelector(this.getAttribute('href'));
-                if (section) {
-                    section.scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-
-        gsap.registerPlugin(ScrollTrigger);
-
-        // Enhanced parallax scrolling
-        gsap.to('.hero', {
-            yPercent: 50,
-            ease: "none",
-            scrollTrigger: {
-                trigger: '.hero',
-                start: "top top",
-                end: "bottom top",
-                scrub: true
-            }
-        });
-
-        gsap.from('.glass-card', {
-            duration: 1.2,
-            y: 100,
-            opacity: 0,
-            rotation: 5,
-            stagger: 0.2,
-            ease: 'elastic.out(1, 0.75)',
-            scrollTrigger: {
-                trigger: '.grid',
-                start: 'top center+=100',
-                toggleActions: 'play none none reverse'
-            }
-        });
-
-        // Parallax effect for each card
-        document.querySelectorAll('.glass-card').forEach(card => {
-            gsap.to(card, {
-                yPercent: -20,
-                ease: "none",
-                scrollTrigger: {
-                    trigger: card,
-                    start: "top bottom",
-                    end: "bottom top",
-                    scrub: true
-                }
-            });
-        });
-
-        // Mouse movement parallax effect
-        document.addEventListener('mousemove', (e) => {
-            const cards = document.querySelectorAll('.glass-card');
-            const mouseX = (e.clientX / window.innerWidth - 0.5) * 20;
-            const mouseY = (e.clientY / window.innerHeight - 0.5) * 20;
-
-            cards.forEach(card => {
-                card.style.transform = `perspective(1000px) rotateY(${mouseX}deg) rotateX(${-mouseY}deg)`;
-            });
-        });
-
-        const quotes = [
-            { text: "Music expresses that which cannot be put into words and that which cannot remain silent.", author: "Victor Hugo" },
-            { text: "One good thing about music, when it hits you, you feel no pain.", author: "Bob Marley" },
-            { text: "Music is the universal language of mankind.", author: "Henry Wadsworth Longfellow" },
-            { text: "Where words fail, music speaks.", author: "Hans Christian Andersen" },
-            { text: "Without music, life would be a mistake.", author: "Friedrich Nietzsche" },
-            { text: "Music is the strongest form of magic.", author: "Marilyn Manson" },
-            { text: "Music produces a kind of pleasure which human nature cannot do without.", author: "Confucius" }
-        ];
-
-        function getNewQuote() {
-            const quoteTexts = document.querySelectorAll('.quote-text');
-            const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-            const quoteContent = `
-                <div class="quote-content">${randomQuote.text.split('').map(char => 
-                    char === ' ' ? ' ' : `<span>${char}</span>`
-                ).join('')}</div>
-                <div class="quote-author">- ${randomQuote.author}</div>
+    const mouseLeave = () => {
+        mouseLeaveDelay = setTimeout(() => {
+            card.style.transform = `
+                perspective(1000px)
+                scale3d(1, 1, 1)
+                rotate3d(0, 0, 0, 0)
             `;
-            quoteTexts.forEach(quoteText => {
-                quoteText.innerHTML = quoteContent;
-            });
+            card.style.filter = 'brightness(1) contrast(1)';
+        }, 100);
+    };
+
+    card.addEventListener('mouseenter', mouseEnter);
+    card.addEventListener('mousemove', mouseMove);
+    card.addEventListener('mouseleave', mouseLeave);
+
+    gsap.to(card, {
+        yPercent: -20,
+        ease: "none",
+        scrollTrigger: {
+            trigger: card,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: true
         }
-
-        // Initialize with random quotes for both landing and main page
-        function initializeQuotes() {
-            const quoteContainers = document.querySelectorAll('.quote-text');
-            quoteContainers.forEach(() => {
-                const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-                const quoteContent = `
-                    <div class="quote-content">${randomQuote.text.split('').map(char => 
-                        char === ' ' ? ' ' : `<span>${char}</span>`
-                    ).join('')}</div>
-                    <div class="quote-author">- ${randomQuote.author}</div>
-                `;
-                quoteContainers.forEach(container => {
-                    container.innerHTML = quoteContent;
-                });
-            });
-        }
-
-        document.addEventListener('DOMContentLoaded', initializeQuotes);
-
-        // Reinitialize quotes when landing page is clicked
-        document.getElementById('landing-page').addEventListener('click', () => {
-            setTimeout(initializeQuotes, 100);
-        });
-    </script>
-<script src="script.js"></script>
-</body>
-</html>
+    });
+});
