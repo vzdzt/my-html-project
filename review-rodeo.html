@@ -1,50 +1,188 @@
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MusicRx - RODEO Review</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.0/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.0/ScrollTrigger.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div id="cursor"></div>
-    <div id="cursor-blur"></div>
-    <canvas id="universe"></canvas>
-    <nav>
-        <ul class="nav-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="reviews.html">Reviews</a></li>
-            <li><a href="#news">News</a></li>
-            <li><a href="#opinions">Opinions</a></li>
-            <li><a href="#interviews">Interviews</a></li>
-        </ul>
-    </nav>
+:root {
+    --primary: #00f7ff;
+    --secondary: #ff00f7;
+    --accent: #7B68EE;
+    --dark: #0a0a0a;
+    --glass: rgba(255, 255, 255, 0.1);
+}
 
-    <div class="container">
-        <h1 class="glitch" data-text="RODEO">RODEO</h1>
-        <div class="review-content">
-            <!-- Your existing Rodeo review content here -->
-            <h2>Travis Scott - RODEO</h2>
-            <div class="ratings-box">
-                <h2>Ratings</h2>
-                <p><span class="highlight">Originality (17/20):</span> A fresh take on trap, blending psychedelic elements with Houston's roots.</p>
-                <p><span class="highlight">Production Quality (19/20):</span> Stellar beats by Scott and co-producers are the album's backbone.</p>
-                <p><span class="highlight">Lyrics and Messaging (12/20):</span> Lyrical content leans heavily on party themes, lacking depth.</p>
-                <p><span class="highlight">Enjoyment Factor (18/20):</span> Addictive for fans of trap's vibe, though inconsistent pacing may tire some.</p>
-                <p><span class="highlight">Consistency (15/20):</span> Strong front-to-back but drags in spots, especially toward the end.</p>
-                <p class="overall-rating"><span class="highlight">Overall Rating (81/100):</span> 8.1/10</p>
-            </div>
-        </div>
-    </div>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="script.js"></script>
-</body>
-</html>
+body {
+    font-family: 'Space Grotesk', sans-serif;
+    background: var(--dark);
+    color: #fff;
+    overflow-x: hidden;
+    perspective: 2000px;
+}
 
+nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 1rem;
+    z-index: 1000;
+}
+
+.nav-links {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    list-style: none;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s;
+    font-family: 'Syncopate', sans-serif;
+    text-transform: uppercase;
+}
+
+.nav-links a:hover {
+    color: var(--primary);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 6rem 2rem 2rem;
+}
+
+.glitch {
+    font-size: 3rem;
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--primary);
+    text-shadow: 0 0 10px var(--primary);
+    font-family: 'Syncopate', sans-serif;
+    text-transform: uppercase;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.glass-card {
+    background: var(--glass);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: transform 0.3s ease-out;
+    cursor: pointer;
+    opacity: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+
+.glass-card {
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    transition: transform 0.3s ease;
+}
+
+.glass-card:hover {
+    transform: perspective(1000px) rotateX(var(--rotateX)) rotateY(var(--rotateY));
+}
+
+.glass-card > * {
+    transform: translateZ(20px);
+}
+
+}
+
+.glass-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--primary);
+    box-shadow: 0 0 20px rgba(0, 247, 255, 0.2);
+}
+
+.glass-card h2 {
+    color: var(--primary);
+    font-family: 'Syncopate', sans-serif;
+}
+
+.glass-card p {
+    color: white;
+    line-height: 1.5;
+}
+
+.rating {
+    color: var(--secondary) !important;
+    font-weight: bold;
+}
+
+.review-content {
+    background: var(--glass);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 2rem;
+    margin-top: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.review-content h2 {
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+    font-family: 'Syncopate', sans-serif;
+}
+
+.ratings-box {
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--primary);
+    border-radius: 10px;
+    padding: 2rem;
+    margin: 2rem 0;
+}
+
+.highlight {
+    color: var(--primary);
+    font-weight: bold;
+}
+
+#cursor {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--primary);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    transition: all 0.1s ease;
+    z-index: 9999;
+}
+
+#cursor-blur {
+    width: 400px;
+    height: 400px;
+    background: rgba(0, 247, 255, 0.1);
+    border-radius: 50%;
+    position: fixed;
+    filter: blur(80px);
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+}
+
+#universe {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+}
