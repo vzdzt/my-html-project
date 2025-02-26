@@ -1,5 +1,5 @@
 // Three.js and animation setup
-const scene = new THREE.Scene();
+// Scene already declared in index.html
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 const renderer = new THREE.WebGLRenderer({ 
     canvas: document.getElementById('universe'), 
