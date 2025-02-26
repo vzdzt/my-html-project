@@ -383,6 +383,30 @@ musicToggle.addEventListener('click', () => {
         bgMusic.pause();
         musicToggle.innerHTML = '<i class="fas fa-music"></i>';
     } else {
+
+// Add 3D tilt effect to cards
+document.querySelectorAll('.glass-card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        
+        const rotateX = (y - centerY) / 10;
+        const rotateY = (centerX - x) / 10;
+        
+        card.style.setProperty('--rotateX', `${rotateX}deg`);
+        card.style.setProperty('--rotateY', `${rotateY}deg`);
+    });
+    
+    card.addEventListener('mouseleave', () => {
+        card.style.setProperty('--rotateX', '0deg');
+        card.style.setProperty('--rotateY', '0deg');
+    });
+});
+
         bgMusic.play();
         musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
     }

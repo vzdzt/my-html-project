@@ -1,0 +1,82 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MusicRx - Reviews</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.0/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.0/ScrollTrigger.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="cursor"></div>
+    <div id="cursor-blur"></div>
+    <canvas id="universe"></canvas>
+    <nav>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="reviews.html">Reviews</a></li>
+            <li><a href="#news">News</a></li>
+            <li><a href="#opinions">Opinions</a></li>
+            <li><a href="#interviews">Interviews</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1 class="glitch" data-text="Reviews">Reviews</h1>
+        <div class="grid">
+            <div class="glass-card" onclick="window.location.href='review-rodeo.html'">
+                <h2>Travis Scott - RODEO</h2>
+                <p>A deep dive into Travis Scott's groundbreaking debut album</p>
+                <p class="rating">Rating: 8.1/10</p>
+            </div>
+            <div class="glass-card">
+                <h2>SZA - SOS</h2>
+                <p>Coming soon...</p>
+            </div>
+            <div class="glass-card">
+                <h2>Tyler, The Creator - CALL ME IF YOU GET LOST</h2>
+                <p>Coming soon...</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.glass-card');
+            
+            cards.forEach(card => {
+                card.addEventListener('mousemove', e => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    
+                    const rotateX = (y - centerY) / 10;
+                    const rotateY = (centerX - x) / 10;
+                    
+                    card.style.transform = `
+                        perspective(1000px) 
+                        rotateX(${rotateX}deg) 
+                        rotateY(${rotateY}deg)
+                        scale3d(1.05, 1.05, 1.05)
+                    `;
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+

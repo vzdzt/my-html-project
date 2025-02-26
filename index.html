@@ -7,7 +7,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.0/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.0/ScrollTrigger.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         #landing-page {
@@ -1059,45 +1059,10 @@
             border-top: 1px solid var(--primary);
         }
 
-        .reasons-box {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--primary);
-            border-radius: 10px;
-            padding: 2rem;
-            margin: 2rem 0;
-        }
-
-        .reasons-box h3 {
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-
-        .reasons-box ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .reasons-box li {
-            margin: 1rem 0;
-            padding-left: 1.5rem;
-            position: relative;
-        }
-
-        .reasons-box li::before {
-            content: '•';
-            color: var(--primary);
-            position: absolute;
-            left: 0;
-        }
-
-        .reasons-box strong {
-            color: var(--primary);
-        }
-
         .glass-card {
             opacity: var(--glass-card-opacity) !important;
         }
-        
+
         .content-details {
             display: var(--content-details-display) !important;
         }
@@ -1139,7 +1104,7 @@
     <nav>
         <ul class="nav-links">
 
-            <li><a href="#reviews">Reviews</a></li>
+            <li><a href="reviews.html">Reviews</a></li>
             <li><a href="#news">News</a></li>
             <li><a href="#opinions">Opinions</a></li>
             <li><a href="#interviews">Interviews</a></li>
@@ -1197,7 +1162,11 @@
             </div>
 
             <div id="content-interviews" class="content-details" style="display: flex; flex-direction: column; opacity: 1; background: rgba(0, 0, 0, 0.8); padding: 2rem; border-radius: 15px; margin-top: 2rem; position: relative; z-index: 10; transition: opacity 0.3s ease-in-out;">
-                <h2>APPEAL</h2>
+                <h2>Interviews</h2>
+                <div class="interview-content">
+                    <h3>Upcoming Interviews</h3>
+                    <p>Coming soon...</p>
+                </div><h2>APPEAL</h2>
                 <div class="interview-content">
                     <h3>CASE 0385837042</h3>
                     <p>Dear X Support,</p>
@@ -1220,14 +1189,6 @@
                     <br>
                     <p>Sincerely,</p>
                     <p><br>@veazydoezit</p>
-                </div>
-            </div>
-            
-            <div id="content-interviews" class="content-details" style="display: flex; flex-direction: column; opacity: 1; background: rgba(0, 0, 0, 0.8); padding: 2rem; border-radius: 15px; margin-top: 2rem; position: relative; z-index: 10; transition: opacity 0.3s ease-in-out;">
-                <h2>Interviews</h2>
-                <div class="interview-content">
-                    <h3>Upcoming Interviews</h3>
-                    <p>Coming soon...</p>
                 </div>
             </div>
 
