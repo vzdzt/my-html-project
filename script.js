@@ -281,10 +281,42 @@ const quotes = [
     { text: "Music expresses that which cannot be put into words and that which cannot remain silent.", author: "Victor Hugo" },
     { text: "One good thing about music, when it hits you, you feel no pain.", author: "Bob Marley" },
     { text: "Music is the universal language of mankind.", author: "Henry Wadsworth Longfellow" },
-    { text: "Where words fail, music speaks.", author: "Hans Christian Andersen" },
+    { text: "Success is not final, failure is not fatal: it is the courage to continue that counts.", author: "Winston Churchill" },
     { text: "Without music, life would be a mistake.", author: "Friedrich Nietzsche" },
-    { text: "Music is the strongest form of magic.", author: "Marilyn Manson" },
-    { text: "Music produces a kind of pleasure which human nature cannot do without.", author: "Confucius" }
+    { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
+    { text: "Fall seven times, stand up eight.", author: "Japanese Proverb" },
+    { text: "It does not matter how slowly you go as long as you do not stop.", author: "Confucius" },
+    { text: "Life is not about waiting for the storm to pass, it's about learning to dance in the rain.", author: "Vivian Greene" },
+    { text: "The future belongs to those who believe in the beauty of their dreams.", author: "Eleanor Roosevelt" },
+    { text: "Strength does not come from winning. Your struggles develop your strengths.", author: "Arnold Schwarzenegger" },
+    { text: "Success is walking from failure to failure with no loss of enthusiasm.", author: "Winston Churchill" },
+    { text: "The only limit to our realization of tomorrow will be our doubts of today.", author: "Franklin D. Roosevelt" },
+    { text: "What lies behind us and what lies before us are tiny matters compared to what lies within us.", author: "Ralph Waldo Emerson" },
+    { text: "When you reach the end of your rope, tie a knot in it and hang on.", author: "Franklin D. Roosevelt" },
+    { text: "You never fail until you stop trying.", author: "Albert Einstein" },
+    { text: "The harder you work for something, the greater you'll feel when you achieve it.", author: "Anonymous" },
+    { text: "Don't watch the clock; do what it does. Keep going.", author: "Sam Levenson" },
+    { text: "Believe you can and you're halfway there.", author: "Theodore Roosevelt" },
+    { text: "Success is not built on success. It's built on failure. It's built on frustration. Sometimes it's built on catastrophe.", author: "Sumner Redstone" },
+    { text: "The music is not in the notes, but in the silence between.", author: "Wolfgang Amadeus Mozart" },
+    { text: "Music washes away from the soul the dust of everyday life.", author: "Berthold Auerbach" },
+    { text: "Music is a higher revelation than all wisdom and philosophy.", author: "Ludwig van Beethoven" },
+    { text: "Life seems to go on without effort when I am filled with music.", author: "George Eliot" },
+    { text: "Music is the soundtrack of your life.", author: "Dick Clark" },
+    { text: "Music touches us emotionally, where words alone can't.", author: "Johnny Depp" },
+    { text: "If music be the food of love, play on.", author: "William Shakespeare" },
+    { text: "Music is the great uniter. An incredible force.", author: "Dave Matthews" },
+    { text: "Music is like a dream. One that I cannot hear.", author: "Ludwig van Beethoven" },
+    { text: "Music is the divine way to tell beautiful, poetic things to the heart.", author: "Pablo Casals" },
+    { text: "The people who are crazy enough to think they can change the world are the ones who do.", author: "Steve Jobs" },
+    { text: "Stay hungry, stay foolish.", author: "Steve Jobs" },
+    { text: "When something is important enough, you do it even if the odds are not in your favor.", author: "Elon Musk" },
+    { text: "I think it is possible for ordinary people to choose to be extraordinary.", author: "Elon Musk" },
+    { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
+    { text: "Persistence is very important. You should not give up unless you are forced to give up.", author: "Elon Musk" },
+    { text: "Innovation distinguishes between a leader and a follower.", author: "Steve Jobs" },
+    { text: "Life is what happens when you're busy making other plans.", author: "John Lennon" },
+    { text: "The future belongs to those who believe in the beauty of their dreams.", author: "Eleanor Roosevelt" }
 ];
 
 function getNewQuote() {
@@ -341,6 +373,27 @@ function initializeQuotes() {
 
 document.addEventListener('DOMContentLoaded', initializeQuotes);
 
+// Music player functionality
+const bgMusic = document.getElementById('bgMusic');
+const musicToggle = document.getElementById('musicToggle');
+let isMusicPlaying = false;
+
+musicToggle.addEventListener('click', () => {
+    if (isMusicPlaying) {
+        bgMusic.pause();
+        musicToggle.innerHTML = '<i class="fas fa-music"></i>';
+    } else {
+        bgMusic.play();
+        musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
+    }
+    isMusicPlaying = !isMusicPlaying;
+});
+
+// Reinitialize quotes when landing page is clicked
+document.getElementById('landing-page').addEventListener('click', () => {
+    setTimeout(initializeQuotes, 100);
+});
+
 // Smooth scroll
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
@@ -380,4 +433,64 @@ gsap.from('.glass-card', {
         start: 'top center+=100',
         toggleActions: 'play none none reverse'
     }
+});
+
+document.querySelectorAll('.glass-card').forEach(card => {
+    let bounds = card.getBoundingClientRect();
+    let mouseLeaveDelay;
+
+    const mouseEnter = (e) => {
+        clearTimeout(mouseLeaveDelay);
+        bounds = card.getBoundingClientRect();
+    };
+
+    const mouseMove = (e) => {
+        const mouseX = e.clientX;
+        const mouseY = e.clientY;
+        const leftX = mouseX - bounds.x;
+        const topY = mouseY - bounds.y;
+        const center = {
+            x: leftX - bounds.width / 2,
+            y: topY - bounds.height / 2
+        };
+        const distance = Math.sqrt(center.x ** 2 + center.y ** 2);
+
+        card.style.transform = `
+            perspective(1000px)
+            scale3d(1.07, 1.07, 1.07)
+            rotate3d(
+                ${center.y / 100},
+                ${-center.x / 100},
+                0,
+                ${Math.log(distance) * 2}deg
+            )
+        `;
+        card.style.filter = `brightness(1.1) contrast(1.1)`;
+    };
+
+    const mouseLeave = () => {
+        mouseLeaveDelay = setTimeout(() => {
+            card.style.transform = `
+                perspective(1000px)
+                scale3d(1, 1, 1)
+                rotate3d(0, 0, 0, 0)
+            `;
+            card.style.filter = 'brightness(1) contrast(1)';
+        }, 100);
+    };
+
+    card.addEventListener('mouseenter', mouseEnter);
+    card.addEventListener('mousemove', mouseMove);
+    card.addEventListener('mouseleave', mouseLeave);
+
+    gsap.to(card, {
+        yPercent: -20,
+        ease: "none",
+        scrollTrigger: {
+            trigger: card,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: true
+        }
+    });
 });
