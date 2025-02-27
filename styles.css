@@ -261,3 +261,32 @@ nav {
 .glass-card.rodeo-card:hover img[src="rodeo-rc2.jpeg"] {
     transform: scale(1.05);
 }
+/* New styles for ap-drake2.jpeg glass card - Added [Current Date] */
+.glass-card.drake-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 10px;
+    transition: transform 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.glass-card.drake-card:hover {
+    transform: scale(1.05);
+}
+
+.glass-card.drake-card img[src="ap-drake2.jpeg"] {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+.glass-card.drake-card:hover img[src="ap-drake2.jpeg"] {
+    transform: scale(1.05);
+}
