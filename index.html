@@ -1097,7 +1097,7 @@
         .glass-card {
             opacity: var(--glass-card-opacity) !important;
         }
-        
+
         .content-details {
             display: var(--content-details-display) !important;
         }
@@ -1139,7 +1139,7 @@
     <nav>
         <ul class="nav-links">
 
-            <li><a href="#reviews">Reviews</a></li>
+            <li><a href="./reviews.html">Reviews</a></li>
             <li><a href="#news">News</a></li>
             <li><a href="#opinions">Opinions</a></li>
             <li><a href="#interviews">Interviews</a></li>
@@ -1222,7 +1222,7 @@
                     <p><br>@veazydoezit</p>
                 </div>
             </div>
-            
+
             <div id="content-interviews" class="content-details" style="display: flex; flex-direction: column; opacity: 1; background: rgba(0, 0, 0, 0.8); padding: 2rem; border-radius: 15px; margin-top: 2rem; position: relative; z-index: 10; transition: opacity 0.3s ease-in-out;">
                 <h2>Interviews</h2>
                 <div class="interview-content">
@@ -1251,6 +1251,9 @@
                 <h2>Latest Reviews</h2>
                 <div class="review-content">
                     <h3>Travis Scott - RODEO</h3>
+                    <div class="glass-card rodeo-card">
+                        <img src="rodeo-rc.jpg" alt="Travis Scott Rodeo album image">
+                    </div>
                     <p>Hip-hop soared into uncharted territory on <span class="highlight">September 4, 2015</span>, when Travis Scott dropped <em>Rodeo</em>, his debut studio album under Grand Hustle and Epic Records. Building on the buzz of his 2014 mixtape <em>Days Before Rodeo</em>, this 14-track odyssey cemented Scott’s status as a visionary producer and polarizing rapper. As of <span class="highlight">February 19, 2025</span>, <em>Rodeo</em> remains a polarizing yet iconic staple of trap music—let’s dive into its hazy, star-studded world.</p>
 <br>
                     <h2>The Messaging and Theme</h2>
@@ -1315,6 +1318,23 @@
 
 
     <script>
+        // Initialize music toggle
+        const bgMusic = document.getElementById('bgMusic');
+        const musicToggle = document.getElementById('musicToggle');
+
+        if (bgMusic && musicToggle) {
+            bgMusic.volume = 0.5;
+            musicToggle.addEventListener('click', () => {
+                if (bgMusic.paused) {
+                    bgMusic.play();
+                    musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
+                } else {
+                    bgMusic.pause();
+                    musicToggle.innerHTML = '<i class="fas fa-music"></i>';
+                }
+            });
+        }
+
         function showContent(contentType) {
             const allContents = document.querySelectorAll('.content-details');
             allContents.forEach(content => {
@@ -1758,7 +1778,7 @@
             quoteContainers.forEach(() => {
                 const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
                 const quoteContent = `
-                    <div class="quote-content```${randomQuote.text.split('').map(char => 
+                    <div class="quote-content">${randomQuote.text.split('').map(char => 
                         char === ' ' ? ' ' : `<span>${char}</span>`
                     ).join('')}</div>
                     <div class="quote-author">- ${randomQuote.author}</div>

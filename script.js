@@ -1,14 +1,25 @@
-// Three.js setup
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer({ 
-    canvas: document.getElementById('universe'), 
-    alpha: true,
-    antialias: true 
-});
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setPixelRatio(window.devicePixelRatio);
-camera.position.z = 1000;
+// Three.js setup - only initialize if not already initialized
+let scene, camera, renderer;
+
+function initThreeJS() {
+    if (!scene) {
+        scene = new THREE.Scene();
+        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const canvas = document.getElementById('universe');
+        if (canvas) {
+            renderer = new THREE.WebGLRenderer({ 
+                canvas: canvas,
+                alpha: true,
+                antialias: true 
+            });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            camera.position.z = 1000;
+        }
+    }
+}
+
+initThreeJS();
 
 // Initialize geometry
 const geometry = new THREE.BufferGeometry();
@@ -205,27 +216,69 @@ function animate() {
 animate();
 
 // Event Listeners
-document.getElementById('universe').addEventListener('click', (event) => {
-    const rect = renderer.domElement.getBoundingClientRect();
-    const x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-    const y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-    const vector = new THREE.Vector3(x * 1000, y * 1000, 0);
-    const supernova = createSupernova(vector.x, vector.y, vector.z);
-    supernovas.push({ 
-        ...supernova, 
-        age: 0,
-        maxAge: 100 
-    });
-});
+document.addEventListener('DOMContentLoaded', () => {
+    const universeCanvas = document.getElementById('universe');
+    if (universeCanvas) {
+        universeCanvas.addEventListener('click', (event) => {
+            const rect = renderer.domElement.getBoundingClientRect();
+            const x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+            const y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+            const vector = new THREE.Vector3(x * 1000, y * 1000, 0);
+            const supernova = createSupernova(vector.x, vector.y, vector.z);
+            supernovas.push({ 
+                ...supernova, 
+                age: 0,
+                maxAge: 100 
+            });
+        });
+    }
 
-window.addEventListener('resize', () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-});
+    // Handle music toggle
+    const bgMusic = document.getElementById('bgMusic');
+    const musicToggle = document.getElementById('musicToggle');
 
-// Initialize preloader
-window.addEventListener('load', () => {
+    if (bgMusic && musicToggle) {
+        bgMusic.volume = 0.5;
+
+        musicToggle.addEventListener('click', async () => {
+            try {
+                if (bgMusic.paused) {
+                    await bgMusic.play();
+                    musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
+                } else {
+                    bgMusic.pause();
+                    musicToggle.innerHTML = '<i class="fas fa-music"></i>';
+                }
+            } catch (err) {
+                console.error('Audio playback error:', err);
+            }
+        });
+    }
+
+    const cursor = document.getElementById('cursor');
+    const cursorBlur = document.getElementById('cursor-blur');
+
+    if (cursor && cursorBlur) {
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            cursor.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+            cursorBlur.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+        });
+    }
+
+    // Landing page handler
+    const landingPage = document.getElementById('landing-page');
+    if (landingPage) {
+        landingPage.addEventListener('click', () => {
+            landingPage.classList.add('fade-out');
+            setTimeout(() => {
+                initializeQuotes();
+            }, 100);
+        });
+    }
+
+    // Initialize preloader
     const preloader = document.getElementById('preloader');
     let width = 0;
     const interval = setInterval(() => {
@@ -244,78 +297,33 @@ window.addEventListener('load', () => {
             }
         }
     }, 20);
+
+
+    // Initialize content display
+    document.querySelectorAll('.content-details').forEach(content => {
+        content.style.display = 'none';
+    });
+
+    // Add hover sound effects (removed playRandomSound for now)
+    document.querySelectorAll('.nav-links a, .social-button, .glass-card, .button').forEach(element => {
+        element.addEventListener('mouseenter', () => {}); //Empty function to avoid errors
+    });
 });
 
-// Landing page handler
-document.getElementById('landing-page').addEventListener('click', () => {
-    const landingPage = document.getElementById('landing-page');
-    landingPage.classList.add('fade-out');
-    setTimeout(initializeQuotes, 100);
+window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
-// Custom cursor
-const cursor = document.getElementById('cursor');
-const cursorBlur = document.getElementById('cursor-blur');
-
-document.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-    cursor.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
-    cursorBlur.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
-});
-
-// Sound effects
-function playRandomSound() {
-    // Disabled for now to prevent errors
-    return;
-}
-
-// Add hover sound effects
-document.querySelectorAll('.nav-links a, .social-button, .glass-card, .button').forEach(element => {
-    element.addEventListener('mouseenter', playRandomSound);
-});
 
 // Quotes system
 const quotes = [
     { text: "Music expresses that which cannot be put into words and that which cannot remain silent.", author: "Victor Hugo" },
     { text: "One good thing about music, when it hits you, you feel no pain.", author: "Bob Marley" },
     { text: "Music is the universal language of mankind.", author: "Henry Wadsworth Longfellow" },
-    { text: "Success is not final, failure is not fatal: it is the courage to continue that counts.", author: "Winston Churchill" },
     { text: "Without music, life would be a mistake.", author: "Friedrich Nietzsche" },
-    { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
-    { text: "Fall seven times, stand up eight.", author: "Japanese Proverb" },
-    { text: "It does not matter how slowly you go as long as you do not stop.", author: "Confucius" },
-    { text: "Life is not about waiting for the storm to pass, it's about learning to dance in the rain.", author: "Vivian Greene" },
-    { text: "The future belongs to those who believe in the beauty of their dreams.", author: "Eleanor Roosevelt" },
-    { text: "Strength does not come from winning. Your struggles develop your strengths.", author: "Arnold Schwarzenegger" },
-    { text: "Success is walking from failure to failure with no loss of enthusiasm.", author: "Winston Churchill" },
-    { text: "The only limit to our realization of tomorrow will be our doubts of today.", author: "Franklin D. Roosevelt" },
-    { text: "What lies behind us and what lies before us are tiny matters compared to what lies within us.", author: "Ralph Waldo Emerson" },
-    { text: "When you reach the end of your rope, tie a knot in it and hang on.", author: "Franklin D. Roosevelt" },
-    { text: "You never fail until you stop trying.", author: "Albert Einstein" },
-    { text: "The harder you work for something, the greater you'll feel when you achieve it.", author: "Anonymous" },
-    { text: "Don't watch the clock; do what it does. Keep going.", author: "Sam Levenson" },
-    { text: "Believe you can and you're halfway there.", author: "Theodore Roosevelt" },
-    { text: "Success is not built on success. It's built on failure. It's built on frustration. Sometimes it's built on catastrophe.", author: "Sumner Redstone" },
-    { text: "The music is not in the notes, but in the silence between.", author: "Wolfgang Amadeus Mozart" },
-    { text: "Music washes away from the soul the dust of everyday life.", author: "Berthold Auerbach" },
-    { text: "Music is a higher revelation than all wisdom and philosophy.", author: "Ludwig van Beethoven" },
-    { text: "Life seems to go on without effort when I am filled with music.", author: "George Eliot" },
-    { text: "Music is the soundtrack of your life.", author: "Dick Clark" },
-    { text: "Music touches us emotionally, where words alone can't.", author: "Johnny Depp" },
-    { text: "If music be the food of love, play on.", author: "William Shakespeare" },
-    { text: "Music is the great uniter. An incredible force.", author: "Dave Matthews" },
-    { text: "Music is like a dream. One that I cannot hear.", author: "Ludwig van Beethoven" },
-    { text: "Music is the divine way to tell beautiful, poetic things to the heart.", author: "Pablo Casals" },
-    { text: "The people who are crazy enough to think they can change the world are the ones who do.", author: "Steve Jobs" },
-    { text: "Stay hungry, stay foolish.", author: "Steve Jobs" },
-    { text: "When something is important enough, you do it even if the odds are not in your favor.", author: "Elon Musk" },
-    { text: "I think it is possible for ordinary people to choose to be extraordinary.", author: "Elon Musk" },
-    { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
-    { text: "Persistence is very important. You should not give up unless you are forced to give up.", author: "Elon Musk" },
-    { text: "Innovation distinguishes between a leader and a follower.", author: "Steve Jobs" },
-    { text: "Life is what happens when you're busy making other plans.", author: "John Lennon" },
-    { text: "The future belongs to those who believe in the beauty of their dreams.", author: "Eleanor Roosevelt" }
+    { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" }
 ];
 
 function getNewQuote() {
@@ -332,67 +340,33 @@ function getNewQuote() {
     });
 }
 
+function initializeQuotes() {
+    const quoteTexts = document.querySelectorAll('.quote-text');
+    if (quoteTexts.length > 0) {
+        getNewQuote();
+    }
+}
+
+// Show content function
 function showContent(contentType) {
-    // Hide all content sections first
-    document.querySelectorAll('.content-details').forEach(content => {
+    const allContents = document.querySelectorAll('.content-details');
+    allContents.forEach(content => {
         content.style.opacity = '0';
         setTimeout(() => {
             content.style.display = 'none';
         }, 300);
     });
 
-    // Show selected content
     const selectedContent = document.getElementById(`content-${contentType}`);
     if (selectedContent) {
         selectedContent.style.display = 'block';
-        // Force a reflow
-        selectedContent.offsetHeight;
+        selectedContent.offsetHeight; // Force reflow
         selectedContent.style.opacity = '1';
         selectedContent.scrollIntoView({ 
             behavior: 'smooth',
             block: 'start'
         });
     }
-}
-
-// Initialize content display
-document.addEventListener('DOMContentLoaded', () => {
-    // Hide all content sections initially
-    document.querySelectorAll('.content-details').forEach(content => {
-        content.style.display = 'none';
-    });
-});
-
-function initializeQuotes() {
-    const quoteContainers = document.querySelectorAll('.quote-text');
-    if (quoteContainers.length > 0) {
-        getNewQuote();
-    }
-}
-
-document.addEventListener('DOMContentLoaded', initializeQuotes);
-
-// Music player functionality
-const bgMusic = document.getElementById('bgMusic');
-const musicToggle = document.getElementById('musicToggle');
-
-if (bgMusic && musicToggle) {
-    bgMusic.volume = 0.5;
-
-    musicToggle.addEventListener('click', () => {
-        if (bgMusic.paused) {
-            bgMusic.play()
-                .then(() => {
-                    musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
-                })
-                .catch(err => {
-                    console.error('Audio playback error:', err);
-                });
-        } else {
-            bgMusic.pause();
-            musicToggle.innerHTML = '<i class="fas fa-music"></i>';
-        }
-    });
 }
 
 // Add 3D tilt effect to cards
@@ -465,6 +439,9 @@ gsap.from('.glass-card', {
 });
 
 document.querySelectorAll('.glass-card').forEach(card => {
+    // Skip the rodeo-card as it has its own specific styling
+    if (card.classList.contains('rodeo-card')) return;
+    
     let bounds = card.getBoundingClientRect();
     let mouseLeaveDelay;
 
@@ -512,14 +489,7 @@ document.querySelectorAll('.glass-card').forEach(card => {
     card.addEventListener('mousemove', mouseMove);
     card.addEventListener('mouseleave', mouseLeave);
 
-    gsap.to(card, {
-        yPercent: -20,
-        ease: "none",
-        scrollTrigger: {
-            trigger: card,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: true
-        }
-    });
+    // Remove scroll-based tilt animation
 });
+
+document.addEventListener('DOMContentLoaded', initializeQuotes);

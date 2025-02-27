@@ -1,13 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MusicRx - RODEO Review</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.0/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.0/ScrollTrigger.min.js"></script>
+    <title>MusicRx - Reviews</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
@@ -18,8 +14,8 @@
     <canvas id="universe"></canvas>
     <nav>
         <ul class="nav-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="reviews.html">Reviews</a></li>
+            <li><a href="./index.html">Home</a></li>
+            <li><a href="./reviews.html">Reviews</a></li>
             <li><a href="#news">News</a></li>
             <li><a href="#opinions">Opinions</a></li>
             <li><a href="#interviews">Interviews</a></li>
@@ -27,23 +23,79 @@
     </nav>
 
     <div class="container">
-        <h1 class="glitch" data-text="RODEO">RODEO</h1>
-        <div class="review-content">
-            <!-- Your existing Rodeo review content here -->
-            <h2>Travis Scott - RODEO</h2>
-            <div class="ratings-box">
-                <h2>Ratings</h2>
-                <p><span class="highlight">Originality (17/20):</span> A fresh take on trap, blending psychedelic elements with Houston's roots.</p>
-                <p><span class="highlight">Production Quality (19/20):</span> Stellar beats by Scott and co-producers are the album's backbone.</p>
-                <p><span class="highlight">Lyrics and Messaging (12/20):</span> Lyrical content leans heavily on party themes, lacking depth.</p>
-                <p><span class="highlight">Enjoyment Factor (18/20):</span> Addictive for fans of trap's vibe, though inconsistent pacing may tire some.</p>
-                <p><span class="highlight">Consistency (15/20):</span> Strong front-to-back but drags in spots, especially toward the end.</p>
-                <p class="overall-rating"><span class="highlight">Overall Rating (81/100):</span> 8.1/10</p>
+        <h1 class="glitch" data-text="Reviews">Reviews</h1>
+        <div class="grid">
+            <div class="glass-card" onclick="window.location.href='review-rodeo.html'">
+                <h2>Travis Scott - RODEO</h2>
+                <p>A deep dive into Travis Scott's groundbreaking debut album</p>
+                <p class="rating">Rating: 8.1/10</p>
+            </div>
+            <div class="glass-card">
+                <h2>SZA - SOS</h2>
+                <p>Coming soon...</p>
+            </div>
+            <div class="glass-card">
+                <h2>Tyler, The Creator - CALL ME IF YOU GET LOST</h2>
+                <p>Coming soon...</p>
             </div>
         </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="script.js"></script>
+    <script>
+        document.querySelectorAll('.glass-card').forEach(card => {
+            let bounds = card.getBoundingClientRect();
+            let mouseLeaveDelay;
+
+            const mouseEnter = (e) => {
+                clearTimeout(mouseLeaveDelay);
+                bounds = card.getBoundingClientRect();
+            };
+
+            const mouseMove = (e) => {
+                const mouseX = e.clientX;
+                const mouseY = e.clientY;
+                const leftX = mouseX - bounds.x;
+                const topY = mouseY - bounds.y;
+                const center = {
+                    x: leftX - bounds.width / 2,
+                    y: topY - bounds.height / 2
+                };
+                const distance = Math.sqrt(center.x ** 2 + center.y ** 2);
+
+                card.style.transform = `
+                    perspective(1000px)
+                    scale3d(1.07, 1.07, 1.07)
+                    rotate3d(
+                        ${center.y / 100},
+                        ${-center.x / 100},
+                        0,
+                        ${Math.log(distance) * 2}deg
+                    )
+                `;
+                card.style.filter = `brightness(1.1) contrast(1.1)`;
+            };
+
+            const mouseLeave = () => {
+                mouseLeaveDelay = setTimeout(() => {
+                    card.style.transform = `
+                        perspective(1000px)
+                        scale3d(1, 1, 1)
+                        rotate3d(0, 0, 0, 0)
+                    `;
+                    card.style.filter = 'brightness(1) contrast(1)';
+                }, 100);
+            };
+
+            card.addEventListener('mouseenter', mouseEnter);
+            card.addEventListener('mousemove', mouseMove);
+            card.addEventListener('mouseleave', mouseLeave);
+
+            // Removed scroll-based tilt animation
+        });
+    </script>
 </body>
 </html>
