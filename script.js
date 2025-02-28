@@ -319,11 +319,29 @@ window.addEventListener('resize', () => {
 
 // Quotes system
 const quotes = [
-    { text: "Music expresses that which cannot be put into words and that which cannot remain silent.", author: "Victor Hugo" },
-    { text: "One good thing about music, when it hits you, you feel no pain.", author: "Bob Marley" },
-    { text: "Music is the universal language of mankind.", author: "Henry Wadsworth Longfellow" },
-    { text: "Without music, life would be a mistake.", author: "Friedrich Nietzsche" },
-    { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" }
+            { text: "One good thing about music, when it hits you, you feel no pain.", author: "Bob Marley" },
+            { text: "Music is the universal language of mankind.", author: "Henry Wadsworth Longfellow" },
+            { text: "Where words fail, music speaks.", author: "Hans Christian Andersen" },
+            { text: "Without music, life would be a mistake.", author: "Friedrich Nietzsche" },
+            { text: "Music is the strongest form of magic.", author: "Marilyn Manson" },
+            { text: "Music produces a kind of pleasure which human nature cannot do without.", author: "Confucius" }
+            { text: "When something is important enough, you do it even if the odds are not in your favor.", author: "Elon Musk" }
+            { text: "Persistence is very important. You should not give up unless you are forced to give up.", author: "Elon Musk" }
+            { text: "I rather be optimistic and wrong than pessimistic and right.", author: "Elon Musk" }
+            { text: "Sometimes life hits you in the head with a brick. Don't lose faith.", author: "Steve Jobs" }
+            { text: "Stay hungry, stay foolish.", author: "Steve Jobs" }
+            { text: "It does not matter how slowly you go as long as you do not stop.", author: "Confucius" }
+            { text: "Wherever you go, go with all your heart.", author: "Confucius" }
+            { text: "Real knowledge is to know th extent of one's ignorance.", author: "Confucius" }
+            { text: "The bamboo that bends is stronger than the oak that resists.", author: "Japanese Proverb" }
+            { text: "Failure is an option here. If things are not failing, you are not innovating enough.", author: "Elon Musk" }
+            { text: "I think it is possible for ordinary people to choose to be extraordinary.", author: "Elon Musk" }
+            { text: "Believe you can and you're halfway there.", author: "Theodore Roosevelt" }
+            { text: "It always seems impossible until it's done.", author: "Nelson Mandela" }
+            { text: "The future belongs to those who believe in the beauty of their dreams.", author: "Eleanor Roosevelt" }
+            { text: "You miss 100% of the shots you don't take.", author: "Wayne Gretzky" }
+            { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" }
+            { text: "Success is not final, failure is not fatal: It is the courage to continue that counts.", author: "Winston Churchill" }
 ];
 
 function getNewQuote() {
