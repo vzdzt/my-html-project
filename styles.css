@@ -310,3 +310,8 @@ nav {
 .glass-card.drake-card:hover img[src="ap-drake2.jpeg"] {
   transform: scale(1.05);
 }
+/* Styling for glass-card inside content-opinions */
+#content-opinions .glass-card {
+  max-width: 300px; /* Matches grid cards’ minimum width */
+  margin: 0 auto; /* Centers it within content-details */
+}
