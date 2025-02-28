@@ -301,12 +301,50 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize content display
     document.querySelectorAll('.content-details').forEach(content => {
+        // Set initial style to avoid flicker
+        content.style.opacity = '0';
         content.style.display = 'none';
     });
 
-    // Add hover sound effects (removed playRandomSound for now)
+    // Make sure trending content is properly styled
+    const trendingContent = document.getElementById('content-trending');
+    if (trendingContent) {
+        trendingContent.style.display = 'flex';
+        trendingContent.style.flexDirection = 'column';
+        trendingContent.style.width = '100%';
+        trendingContent.style.opacity = '0';
+    }
+
+    // Add hover sound effects with error handling
+    function playRandomSound() {
+        try {
+            const sounds = [
+                document.getElementById('hover-sound-1'),
+                document.getElementById('hover-sound-2'),
+                document.getElementById('hover-sound-3')
+            ];
+
+            // Filter out null elements
+            const validSounds = sounds.filter(sound => sound !== null);
+
+            if (validSounds.length > 0) {
+                const sound = validSounds[Math.floor(Math.random() * validSounds.length)];
+                if (sound && typeof sound.play === 'function') {
+                    sound.currentTime = 0;
+                    sound.volume = 0.2;
+                    sound.play().catch(e => console.log("Audio play prevented:", e));
+                }
+            }
+        } catch (err) {
+            console.log("Audio system error:", err);
+            // Silently fail if audio can't be played
+        }
+    }
+
     document.querySelectorAll('.nav-links a, .social-button, .glass-card, .button').forEach(element => {
-        element.addEventListener('mouseenter', () => {}); //Empty function to avoid errors
+        element.addEventListener('mouseenter', () => {
+            playRandomSound();
+        });
     });
 });
 
@@ -324,23 +362,23 @@ const quotes = [
             { text: "Where words fail, music speaks.", author: "Hans Christian Andersen" },
             { text: "Without music, life would be a mistake.", author: "Friedrich Nietzsche" },
             { text: "Music is the strongest form of magic.", author: "Marilyn Manson" },
-            { text: "Music produces a kind of pleasure which human nature cannot do without.", author: "Confucius" }
-            { text: "When something is important enough, you do it even if the odds are not in your favor.", author: "Elon Musk" }
-            { text: "Persistence is very important. You should not give up unless you are forced to give up.", author: "Elon Musk" }
-            { text: "I rather be optimistic and wrong than pessimistic and right.", author: "Elon Musk" }
-            { text: "Sometimes life hits you in the head with a brick. Don't lose faith.", author: "Steve Jobs" }
-            { text: "Stay hungry, stay foolish.", author: "Steve Jobs" }
-            { text: "It does not matter how slowly you go as long as you do not stop.", author: "Confucius" }
-            { text: "Wherever you go, go with all your heart.", author: "Confucius" }
-            { text: "Real knowledge is to know th extent of one's ignorance.", author: "Confucius" }
-            { text: "The bamboo that bends is stronger than the oak that resists.", author: "Japanese Proverb" }
-            { text: "Failure is an option here. If things are not failing, you are not innovating enough.", author: "Elon Musk" }
-            { text: "I think it is possible for ordinary people to choose to be extraordinary.", author: "Elon Musk" }
-            { text: "Believe you can and you're halfway there.", author: "Theodore Roosevelt" }
-            { text: "It always seems impossible until it's done.", author: "Nelson Mandela" }
-            { text: "The future belongs to those who believe in the beauty of their dreams.", author: "Eleanor Roosevelt" }
-            { text: "You miss 100% of the shots you don't take.", author: "Wayne Gretzky" }
-            { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" }
+            { text: "Music produces a kind of pleasure which human nature cannot do without.", author: "Confucius" },
+            { text: "When something is important enough, you do it even if the odds are not in your favor.", author: "Elon Musk" },
+            { text: "Persistence is very important. You should not give up unless you are forced to give up.", author: "Elon Musk" },
+            { text: "I rather be optimistic and wrong than pessimistic and right.", author: "Elon Musk" },
+            { text: "Sometimes life hits you in the head with a brick. Don't lose faith.", author: "Steve Jobs" },
+            { text: "Stay hungry, stay foolish.", author: "Steve Jobs" },
+            { text: "It does not matter how slowly you go as long as you do not stop.", author: "Confucius" },
+            { text: "Wherever you go, go with all your heart.", author: "Confucius" },
+            { text: "Real knowledge is to know the extent of one's ignorance.", author: "Confucius" },
+            { text: "The bamboo that bends is stronger than the oak that resists.", author: "Japanese Proverb" },
+            { text: "Failure is an option here. If things are not failing, you are not innovating enough.", author: "Elon Musk" },
+            { text: "I think it is possible for ordinary people to choose to be extraordinary.", author: "Elon Musk" },
+            { text: "Believe you can and you're halfway there.", author: "Theodore Roosevelt" },
+            { text: "It always seems impossible until it's done.", author: "Nelson Mandela" },
+            { text: "The future belongs to those who believe in the beauty of their dreams.", author: "Eleanor Roosevelt" },
+            { text: "You miss 100% of the shots you don't take.", author: "Wayne Gretzky" },
+            { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
             { text: "Success is not final, failure is not fatal: It is the courage to continue that counts.", author: "Winston Churchill" }
 ];
 
@@ -377,7 +415,17 @@ function showContent(contentType) {
 
     const selectedContent = document.getElementById(`content-${contentType}`);
     if (selectedContent) {
-        selectedContent.style.display = 'block';
+        // Special handling for trending content
+        if (contentType === 'trending') {
+            selectedContent.style.display = 'flex';
+            selectedContent.style.flexDirection = 'column';
+            selectedContent.style.width = '100%';
+            selectedContent.style.maxWidth = '100%';
+            selectedContent.style.margin = '2rem 0';
+        } else {
+            selectedContent.style.display = 'block';
+        }
+
         selectedContent.offsetHeight; // Force reflow
         selectedContent.style.opacity = '1';
         selectedContent.scrollIntoView({ 
@@ -459,7 +507,7 @@ gsap.from('.glass-card', {
 document.querySelectorAll('.glass-card').forEach(card => {
     // Skip the rodeo-card as it has its own specific styling
     if (card.classList.contains('rodeo-card')) return;
-    
+
     let bounds = card.getBoundingClientRect();
     let mouseLeaveDelay;
 
