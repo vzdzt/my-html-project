@@ -312,7 +312,7 @@ document.addEventListener('DOMContentLoaded', () => {
         trendingContent.style.display = 'flex';
         trendingContent.style.flexDirection = 'column';
         trendingContent.style.width = '100%';
-        trendingContent.style.opacity = '0';
+        trendingContent.style.opacity = '1'; // Set to visible since we're placing it below News
     }
 
     // Add hover sound effects with error handling
