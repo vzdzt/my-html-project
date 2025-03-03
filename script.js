@@ -435,26 +435,26 @@ function showContent(contentType) {
     }
 }
 
-// Add 3D tilt effect to cards
+// Disable 3D tilt effect for all cards
 document.querySelectorAll('.glass-card').forEach(card => {
-    card.addEventListener('mousemove', e => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
+    // Apply inline styles to ensure flat cards
+    card.style.transform = 'none !important';
+    card.style.perspective = 'none !important';
+    card.style.transformStyle = 'flat !important';
+    card.style.transition = 'box-shadow 0.3s ease, opacity 0.3s ease !important';
+    card.style.rotate = '0deg !important';
 
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
+    // Remove any listeners that might be causing transforms
+    const newCard = card.cloneNode(true);
+    card.parentNode.replaceChild(newCard, card);
 
-        const rotateX = (y - centerY) / 10;
-        const rotateY = (centerX - x) / 10;
-
-        card.style.setProperty('--rotateX', `${rotateX}deg`);
-        card.style.setProperty('--rotateY', `${rotateY}deg`);
+    // Add only hover effect for box shadow
+    newCard.addEventListener('mouseenter', () => {
+        newCard.style.boxShadow = '0 0 20px rgba(0, 247, 255, 0.3)';
     });
 
-    card.addEventListener('mouseleave', () => {
-        card.style.setProperty('--rotateX', '0deg');
-        card.style.setProperty('--rotateY', '0deg');
+    newCard.addEventListener('mouseleave', () => {
+        newCard.style.boxShadow = '0 8px 32px rgba(0, 247, 255, 0.1)';
     });
 });
 
@@ -476,7 +476,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// GSAP animations
+// GSAP animations - only keep hero animation, disable all card animations
 gsap.registerPlugin(ScrollTrigger);
 
 gsap.to('.hero', {
@@ -490,13 +490,33 @@ gsap.to('.hero', {
     }
 });
 
+// Completely remove parallax effects for cards
+document.querySelectorAll('.glass-card').forEach(card => {
+    gsap.killTweensOf(card); // Kill any GSAP animations on cards
+
+    // Reset to flat style
+    card.style.transform = 'none !important';
+    card.style.transformStyle = 'flat !important';
+    card.style.perspective = 'none !important';
+    card.style.transition = 'box-shadow 0.3s ease, opacity 0.3s ease !important';
+});
+
+// Completely remove mouse movement effects on cards
+document.addEventListener('mousemove', (e) => {
+    const cards = document.querySelectorAll('.glass-card');
+    cards.forEach(card => {
+        card.style.transform = 'none';
+    });
+});
+
+// Replace with flat animation with no rotation
 gsap.from('.glass-card', {
     duration: 1.2,
     y: 100,
     opacity: 0,
-    rotation: 5,
+    rotation: 0, // Removed rotation
     stagger: 0.2,
-    ease: 'elastic.out(1, 0.75)',
+    ease: 'power2.out', // Changed from elastic to prevent any bouncing
     scrollTrigger: {
         trigger: '.grid',
         start: 'top center+=100',
@@ -504,58 +524,95 @@ gsap.from('.glass-card', {
     }
 });
 
-document.querySelectorAll('.glass-card').forEach(card => {
-    // Skip the rodeo-card as it has its own specific styling
-    if (card.classList.contains('rodeo-card')) return;
 
-    let bounds = card.getBoundingClientRect();
-    let mouseLeaveDelay;
-
-    const mouseEnter = (e) => {
-        clearTimeout(mouseLeaveDelay);
-        bounds = card.getBoundingClientRect();
-    };
-
-    const mouseMove = (e) => {
-        const mouseX = e.clientX;
-        const mouseY = e.clientY;
-        const leftX = mouseX - bounds.x;
-        const topY = mouseY - bounds.y;
-        const center = {
-            x: leftX - bounds.width / 2,
-            y: topY - bounds.height / 2
-        };
-        const distance = Math.sqrt(center.x ** 2 + center.y ** 2);
-
-        card.style.transform = `
-            perspective(1000px)
-            scale3d(1.07, 1.07, 1.07)
-            rotate3d(
-                ${center.y / 100},
-                ${-center.x / 100},
-                0,
-                ${Math.log(distance) * 2}deg
-            )
+// Function to enforce flat cards throughout the page
+function enforceFlatCards() {
+    document.querySelectorAll('.glass-card').forEach(card => {
+        // Apply inline styles to override any external animations
+        card.style.cssText += `
+            transform: none !important;
+            perspective: none !important;
+            transform-style: flat !important;
+            rotate: 0deg !important;
+            transition: box-shadow 0.3s ease, opacity 0.3s ease !important;
+            transform-origin: center center !important;
         `;
-        card.style.filter = `brightness(1.1) contrast(1.1)`;
-    };
 
-    const mouseLeave = () => {
-        mouseLeaveDelay = setTimeout(() => {
-            card.style.transform = `
-                perspective(1000px)
-                scale3d(1, 1, 1)
-                rotate3d(0, 0, 0, 0)
+        // Apply to all children as well
+        card.querySelectorAll('*').forEach(child => {
+            child.style.cssText += `
+                transform: none !important;
+                perspective: none !important;
+                transform-style: flat !important;
             `;
-            card.style.filter = 'brightness(1) contrast(1)';
-        }, 100);
-    };
+        });
+    });
+}
 
-    card.addEventListener('mouseenter', mouseEnter);
-    card.addEventListener('mousemove', mouseMove);
-    card.addEventListener('mouseleave', mouseLeave);
+// Run on load
+document.addEventListener('DOMContentLoaded', enforceFlatCards);
 
-    // Remove scroll-based tilt animation
+// Run on scroll to continuously enforce flat cards
+window.addEventListener('scroll', enforceFlatCards);
+
+// Apply a single event handler to manage all glass cards
+function setupAllGlassCards() {
+    document.querySelectorAll('.glass-card').forEach(card => {
+        // Force complete removal of all transform styles for all cards
+        card.style.cssText += `
+            transform: none !important;
+            transform-style: flat !important;
+            perspective: none !important;
+            transition: box-shadow 0.3s ease, opacity 0.3s ease !important;
+            rotate: 0deg !important;
+            position: relative !important;
+            backface-visibility: hidden !important;
+            will-change: auto !important;
+            transform-box: border-box !important;
+        `;
+
+        // Force flat transform on all children
+        card.querySelectorAll('*').forEach(child => {
+            child.style.cssText += `
+                transform: none !important;
+                transform-style: flat !important;
+                transition: none !important;
+                perspective: none !important;
+                rotate: 0deg !important;
+            `;
+        });
+
+        // Remove existing listeners by cloning and replacing
+        const newCard = card.cloneNode(true);
+        card.parentNode.replaceChild(newCard, card);
+
+        // Only add simple box-shadow hover effect
+        newCard.addEventListener('mouseenter', () => {
+            newCard.style.boxShadow = '0 0 20px rgba(0, 247, 255, 0.3)';
+            newCard.style.filter = 'brightness(1.1)';
+        });
+
+        newCard.addEventListener('mouseleave', () => {
+            newCard.style.boxShadow = '0 8px 32px rgba(0, 247, 255, 0.1)';
+            newCard.style.filter = 'brightness(1)';
+        });
+    });
+}
+
+// Cancel all GSAP animations for cards
+gsap.killTweensOf('.glass-card');
+
+// Run the setup initially and on scroll
+document.addEventListener('DOMContentLoaded', setupAllGlassCards);
+window.addEventListener('scroll', setupAllGlassCards);
+window.addEventListener('resize', setupAllGlassCards);
+
+// Permanently prevent mouse movement effects
+document.addEventListener('mousemove', (e) => {
+    document.querySelectorAll('.glass-card').forEach(card => {
+        card.style.transform = 'none !important';
+        card.style.rotate = '0deg !important';
+    });
 });
 
 document.addEventListener('DOMContentLoaded', initializeQuotes);

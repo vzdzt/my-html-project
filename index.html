@@ -405,6 +405,12 @@
             transform-style: preserve-3d;
             perspective: 1000px;
             box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1);
+            transition: box-shadow 0.3s ease, opacity 0.3s ease, background-color 0.3s ease;
+            transform-style: flat !important;
+            will-change: auto;
+            transform: none !important;
+            perspective: none !important;
+
         }
 
         .glass-card::before {
@@ -423,24 +429,13 @@
             transition: 0.5s;
         }
 
-        .glass-card {
-            transition: transform 0.2s ease-out;
-            transform-style: preserve-3d;
-            will-change: transform;
-            transform: perspective(1000px) rotateX(0) rotateY(0);
-        }
-
         .glass-card:hover {
-            transform: perspective(1000px) 
-                      rotateX(calc(var(--mouse-y, 0) * 40deg)) 
-                      rotateY(calc(var(--mouse-x, 0) * 40deg));
+            transform: none !important;
             background: rgba(255, 255, 255, 0.15);
             border-color: var(--primary);
             box-shadow: 
                 0 0 0 2px var(--primary),
-                0 0 30px rgba(0, 247, 255, 0.4),
-                0 0 60px rgba(0, 247, 255, 0.2),
-                0 0 90px rgba(0, 247, 255, 0.1);
+                0 0 30px rgba(0, 247, 255, 0.4);
         }
 
         .glass-card:hover::after {
@@ -897,7 +892,7 @@
             }
             50% {
                 text-shadow: 
-                    4px 0 10px #0f0,
+                    4px 0 10px 10px #0f0,
                     -4px -4px 20px #ff0,
                     4px 4px 40px #f00;
                 transform: translate(4px, -4px) scale(0.8) skew(5deg);
@@ -1106,6 +1101,34 @@
             0%, 100% { opacity: 1; text-shadow: 0 0 10px white; }
             50% { opacity: 0.5; text-shadow: 0 0 20px white; }
         }
+        .table-card {
+            overflow-x: auto; /* Enable horizontal scrolling if needed */
+        }
+
+        .table-container {
+            overflow-x: auto; /* Enable horizontal scrolling for the table */
+            max-width: 100%; /* Ensure the table doesn't exceed container width */
+            padding: 1rem; /* Add padding around the table */
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); /* Add a subtle box shadow */
+        }
+
+        .trend-table {
+            width: 100%; /* Make table responsive */
+            border-collapse: collapse; /* Remove default table spacing */
+        }
+
+        .trend-table th,
+        .trend-table td {
+            border: 1px solid rgba(255, 255, 255, 0.2); /* Add subtle borders */
+            padding: 0.8rem 1rem; /* Add padding to cells */
+            text-align: left; /* Align text to the left */
+        }
+
+        .trend-table th {
+            background-color: rgba(255, 255, 255, 0.1); /* Add a light background to headers */
+            font-weight: bold; /* Make header text bold */
+        }
+
     </style>
 </head>
 <body>
@@ -1243,9 +1266,153 @@
                 <h2>Trending</h2>
                 <div class="trending-content">
                     <h3>Hip Hop Evolution</h3>
-                    <p>Trend analysis coming soon...</p>
+                    <body>
+                        <h1>Hip Hop & Underground Rap Trend Analysis 2025</h1>
+
+                        <!-- Key Points -->
+                        <div class="glass-card">
+                            <body>
+
+                                <!-- Key Points -->
+                                
+                                    <h2>Key Points</h2>
+                                    <ul>
+                                        <li>Research suggests the underground rap scene in 2025 is thriving with experimental sounds like lo-fi, rage, and hyper-pop.</li>
+<br>                                        <li>It seems likely that artists like Nine Vicious, Nettspend, Pretti Fun, and Xaviersobased are setting trends with innovative production and genre blending.</li>
+                    <br>                    <li>The evidence leans toward dark, moody themes in music videos, with artists like Dark Glo and eternalvail leading in horrorcore-inspired visuals.</li>
+            <br>                            <li>Unexpected detail: These artists are also influencing fashion and art, creating a holistic cultural impact beyond music.</li>
+                                    </ul>
+                                </div>
+
+                                <!-- Underground Rap Scene Overview -->
+                                <div class="glass-card">
+                                    <h2>Underground Rap Scene Overview</h2>
+                                    <p>In 2025, the underground rap scene is a vibrant space where emerging artists are pushing creative boundaries, contrasting with the polished, pop-driven mainstream hip hop led by artists like Drake and Kendrick Lamar. These underground talents are known for their DIY ethos, often distributing music via platforms like SoundCloud and TikTok, and are free from major label constraints, allowing for authentic expression.</p>
+                                </div>
+
+                                <!-- Notable Emerging Artists -->
+                                <div class="glass-card">
+                                    <h2>Notable Emerging Artists</h2>
+                                    <h3>Key figures include:</h3> 
+                                    <ul>
+                                        <li>Nine Vicious, whose debut album <em>Studio Addict</em> (released in January 2025) showcases a contemporary take on Atlanta rap with experimental sounds. Nettspend, a 17-year-old from Virginia, is making waves with raw energy, having performed at Rolling Loud California in 2024 and working on his first album.</li>
+                                        <br>
+                                        <li> Pretti Fun is noted for his hyper-pop influenced mixtapes, Pretti and Fun is noted for his hyper-pop influenced mixtapes, <em>Pretti</em> and <em>Fun House</em>, released in 2024, attracting a fresh audience.</li>
+                <br>                            <li>Xaviersobased, from New York City, blends genres like trap, plugg, jerk, and hyperpop, with recent collaborations and performances in 2024.</li>
+                  <br>                      <li>Osamason, from Columbus, Ohio, gained traction with his 2023 album <em>Osama Season</em> and 2025 release <em>Jump Out</em>, adding to the scene's diversity.</li>
+                                        <br>
+                                </div>
+
+                                <!-- Trends and Visuals -->
+                                <div class="glass-card">
+                                    <h2>Trends and Visuals</h2>
+                                    <p>The scene is seeing a rise in dark, moody themes, particularly in music videos, with artists like Dark Glo and eternalvail incorporating surreal, shadow-laden visuals inspired by horrorcore, enhancing the storytelling aspect of their work.</p>
+                                </div>
+
+                                <!-- Cultural Impact -->
+                                <div class="glass-card">
+                                    <h2>Cultural Impact</h2>
+                                    <p>Beyond music, these artists are influencing fashion and art, collaborating with designers and visual artists to create a multidimensional cultural experience, setting new trends that extend into streetwear and digital art.</p>
+                                </div>
+
+                                <!-- Detailed Tables -->
+                                <div class="glass-card">
+                                    <h2>Detailed Tables</h2>
+
+                                    <!-- Table 1 -->
+                                                       <h3>Key Trends and Examples</h3>
+                                    <div class="table-container">
+                                        <table class="trend-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Category</th>
+                                                    <th>Trend</th>
+                                                    <th>Examples</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Music and Production</td>
+                                                    <td>Experimental sounds, lo-fi, rage, hyper-pop</td>
+                                                    <td>Nine Vicious, Nettspend, Pretti Fun, Xaviersobased, osamason</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Videography and Dark Art</td>
+                                                    <td>Moody, occult visuals, horrorcore</td>
+                                                    <td>Dark Glo, eternalvail, ohsxnta</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Fashion and Art Influence</td>
+                                                    <td>Streetwear, digital art collaborations</td>
+                                                    <td>Xaviersobased, osamason, Southsidesilhouette, Diorvsyou</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    </div>
+
+                                    <!-- Table 2 -->
+                                    <div class="glass-card table-card">
+                                    <h3>Notable Artists</h3>
+                                    <div class="table-container">
+                                        <table class="trend-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Notable Artists</th>
+                                                    <th>Description</th>
+                                                    <th>Impact</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Nine Vicious</td>
+                                                    <td>Debut album <em>Studio Addict</em> in 2025, experimental Atlanta rap</td>
+                                                    <td>Sets new production standards, gains press attention</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Nettspend</td>
+                                                    <td>Young rapper, raw energy, Rolling Loud 2024 performer</td>
+                                                    <td>Inspires new generation, builds underground buzz</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Pretti Fun</td>
+                                                    <td>Hyper-pop influenced mixtapes, breakout artist of 2024</td>
+                                                    <td>Attracts fresh audience, blends genres</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Xaviersobased</td>
+                                                    <td>Genre-blending, trap to hyperpop, recent collaborations</td>
+                                                    <td>Pioneers new subgenres, influences visuals</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Osamason</td>
+                                                    <td>2023 breakout with <em>Osama Season</em>, 2025 album <em>Jump Out</em></td>
+                                                    <td>Adds diversity, gains social media traction</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    </div>
+                            </body>
                 </div>
-            </div>
+
+                        <!-- Videography and Dark Art -->
+                        <h2>Videography and Dark Art</h2>
+                        <div class="glass-card">
+                            <p>Dark art themes are increasingly visible in hip hop visuals, particularly in music videos. Horrorcore, a subgenre focusing on dark, violent themes, influences artists to use moody, occult, and dystopian aesthetics, enhancing the storytelling in their work. Underground rappers like Hardrock, Dark Glo, and eternalvail amplify this trend with their surreal and shadowy video styles.</p>
+                        </div>
+
+                        <!-- Use of AI -->
+                        <h2>Use of AI</h2>
+                        <div class="glass-card">
+                            <p>AI is transforming hip hop, with tools generating beats, lyrics, and even simulating artists' voices, as seen in viral songs like "Heart On My Sleeve" by Ghostwriter977. This raises ethical concerns about consent and ownership, with artists like Vritra using AI to experiment with new sounds, while debates continue on its impact on human creativity. Emerging underground artists such as 454 and Project4Play are also exploring AI-driven production techniques.</p>
+                        </div>
+
+                        <!-- Crossover with Fashion and Art -->
+                        <h2>Crossover with Fashion and Art</h2>
+                        <div class="glass-card">
+                            <p>Hip hop significantly influences fashion, driving trends in streetwear and luxury collaborations, with brands like Supreme and Off-White reflecting this culture. Underground rappers like Southsidesilhouette, Diorvsyou, and Pradabagshawty are shaping the aesthetic with bold, oversized looks. Art and music intersect through album covers and music videos, with artists like Kanye West and xaviersobased embodying this convergence by blending music with visual art and fashion design.</p>
+                        </div>
 
 <div id="content-opinions" class="content-details" style="display: flex; flex-direction: column; opacity: 1; background: rgba(0, 0, 0, 0.8); padding: 2rem; border-radius: 15px; margin-top: 2rem; position: relative; z-index: 10; transition: opacity 0.3s ease-in-out;">
                 <h2>Opinions</h2>
@@ -1282,14 +1449,14 @@
                         <li><span class="highlight">“90210”</span> - A cinematic opener blending haunting piano and Scott’s auto-tuned storytelling.</li>
                         <li><span class="highlight">“Antidote”</span> - The breakout hit, a hypnotic trap banger with a sticky hook.</li>
                         <li><span class="highlight">“Maria I’m Drunk” (feat. Justin Bieber & Young Thug)</span> - A wild, star-powered party anthem.</li>
-                        <li><span class="highlight">“Nightcrawler” (feat. Swae Lee & Chief Keef)</span> - A dark, bass-heavy standout for late-night vibes.</li>
+                        <li><span class="highlight">“Nightcrawler” (feat. Swae Lee & Chief Keef)</span> - A dark, bass-heavy standout forlate-night vibes.</li>
                     </ul>
                     <br>
                     <h2>Previous Works</h2>
                     <p>Before <em>Rodeo</em>, Travis Scott built his name with mixtapes like <em>Owl Pharaoh</em> (2013) and <em>Days Before Rodeo</em> (2014), showcasing his production skills and auto-tuned flow. Those projects laid the groundwork for <em>Rodeo</em>’s psychedelic trap sound, drawing from Houston’s chopped-and-screwed tradition and Scott’s collaborations with artists like T.I. and Kanye West. <em>Rodeo</em> marks his evolution from mixtape phenom to major-label star, refining the hazy aesthetic that would later define <em>Astroworld</em>.</p>
                     <br>
                     <h2>Summary</h2>
-                    <p><em>Rodeo</em> is a <span class="highlight">65-minute thrill ride</span> that thrives on production and atmosphere, even if its lyrical depth falters. Scott’s visionary beats and all-star features create a psychedelic trap masterpiece, but the album’s length and Scott’s uneven rapping—often criticized as monotonous or substance-lacking—can wear thin. It’s not perfect, but its cultural impact is undeniable, spawning hits like <span class="highlight">“Antidote”</span> and influencing trap’s evolution. As of <span class="highlight">February 19, 2025</span>, <em>Rodeo</em> remains a fan favorite and a polarizing classic, less about complexity and more about Scott’s bold, hazy vision.</p>
+                    <p><em>Rodeo</em> is a <span class="highlight">65-minute thrill ride</span> that thrives on production and atmosphere, even if its lyrical depth falters. Scott’s visionary beats and all-star features create a psychedelic trap masterpiece, but the album’s length and Scott’s uneven rapping—often criticized as monotonous orsubstance-lacking—can wear thin. It’s not perfect, but its cultural impact is undeniable, spawning hits like <span class="highlight">“Antidote”</span> and influencing trap’s evolution. As of <span class="highlight">February 19, 2025</span>, <em>Rodeo</em> remains a fan favorite and a polarizing classic, less about complexity and more about Scott’s bold, hazy vision.</p>
                     <br>
                     <div class="ratings-box">
                         <h2>Ratings</h2>
@@ -1364,84 +1531,96 @@
                         <div class="glass-card">
                             <h2>By the Numbers</h2>
                             <h3>Drake's Peak Chart Positions for Selected Singles (2000s and 2010s)</h3>
-                            <table>
-                                <tr>
-                                    <th>Title</th>
-                                    <th>Year</th>
-                                    <th>Billboard Hot 100 (US)</th>
-                                    <th>Canadian Hot 100 (CAN)</th>
-                                    <th>UK Singles Chart (UK)</th>
-                                </tr>
-                                <tr>
-                                    <td>"Best I Ever Had"</td>
-                                    <td>2009</td>
-                                    <td>2</td>
-                                    <td>24</td>
-                                    <td>123</td>
-                                </tr>
-                                <tr>
-                                    <td>"Over"</td>
-                                    <td>2010</td>
-                                    <td>14</td>
-                                    <td>17</td>
-                                    <td>50</td>
-                                </tr>
-                                <tr>
-                                    <td>"Take Care" (feat. Rihanna)</td>
-                                    <td>2012</td>
-                                    <td>7</td>
-                                    <td>15</td>
-                                    <td>9</td>
-                                </tr>
-                                <tr>
-                                    <td>"Started from the Bottom"</td>
-                                    <td>2013</td>
-                                    <td>6</td>
-                                    <td>36</td>
-                                    <td>25</td>
-                                </tr>
-                                <tr>
-                                    <td>"Hotline Bling"</td>
-                                    <td>2015</td>
-                                    <td>2</td>
-                                    <td>3</td>
-                                    <td>3</td>
-                                </tr>
-                            </table>
+                            <div class="table-container">
+                                <table class="glass-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>Year</th>
+                                            <th>Billboard Hot 100 (US)</th>
+                                            <th>Canadian Hot 100 (CAN)</th>
+                                            <th>UK Singles Chart (UK)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>"Best I Ever Had"</td>
+                                            <td>2009</td>
+                                            <td>2</td>
+                                            <td>24</td>
+                                            <td>123</td>
+                                        </tr>
+                                        <tr>
+                                            <td>"Over"</td>
+                                            <td>2010</td>
+                                            <td>14</td>
+                                            <td>17</td>
+                                            <td>50</td>
+                                        </tr>
+                                        <tr>
+                                            <td>"Take Care" (feat. Rihanna)</td>
+                                            <td>2012</td>
+                                            <td>7</td>
+                                            <td>15</td>
+                                            <td>9</td>
+                                        </tr>
+                                        <tr>
+                                            <td>"Started from the Bottom"</td>
+                                            <td>2013</td>
+                                            <td>6</td>
+                                            <td>36</td>
+                                            <td>25</td>
+                                        </tr>
+                                        <tr>
+                                            <td>"Hotline Bling"</td>
+                                            <td>2015</td>
+                                            <td>2</td>
+                                            <td>3</td>
+                                            <td>3</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
 
                             <h3>Drake's Album Certifications (RIAA, Selected)</h3>
-                            <table>
-                                <tr>
-                                    <th>Album</th>
-                                    <th>Certification</th>
-                                    <th>Units (Millions)</th>
-                                </tr>
-                                <tr>
-                                    <td>Take Care</td>
-                                    <td>4x Platinum</td>
-                                    <td>4</td>
-                                </tr>
-                                <tr>
-                                    <td>Views</td>
-                                    <td>4x Platinum</td>
-                                    <td>4</td>
-                                </tr>
-                                <tr>
-                                    <td>Scorpion</td>
-                                    <td>3x Platinum</td>
-                                    <td>3</td>
-                                </tr>
-                                <tr>
-                                    <td>Certified Lover Boy</td>
-                                    <td>2x Platinum</td>
-                                    <td>2</td>
-                                </tr>
-                                <tr>
-                                    <td>Her Loss (with 21 Savage)</td>
-                                    <td>2x Platinum</td>
-                                    <td>2</td>
-                                </tr>
-                            </table>
+                            <div class="table-container">
+                                <table class="glass-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Album</th>
+                                            <th>Certification</th>
+                                            <th>Units (Millions)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Take Care</td>
+                                            <td>4x Platinum</td>
+                                            <td>4</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Views</td>
+                                            <td>4x Platinum</td>
+                                            <td>4</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Scorpion</td>
+                                            <td>3x Platinum</td>
+                                            <td>3</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Certified Lover Boy</td>
+                                            <td>2x Platinum</td>
+                                            <td>2</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Her Loss (with 21 Savage)</td>
+                                            <td>2x Platinum</td>
+                                            <td>2</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
 
                         <h2>Citations</h2>
@@ -1885,16 +2064,6 @@
             });
         });
 
-        // Mouse movement parallax effect
-        document.addEventListener('mousemove', (e) => {
-            const cards = document.querySelectorAll('.glass-card');
-            const mouseX = (e.clientX / window.innerWidth - 0.5) * 20;
-            const mouseY = (e.clientY / window.innerHeight - 0.5) * 20;
-
-            cards.forEach(card => {
-                card.style.transform = `perspective(1000px) rotateY(${mouseX}deg) rotateX(${-mouseY}deg)`;
-            });
-        });
 
         const quotes = [
             { text: "Music expresses that which cannot be put into words and that which cannot remain silent.", author: "Victor Hugo" },

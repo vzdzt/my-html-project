@@ -47,54 +47,22 @@
     <script src="script.js"></script>
     <script>
         document.querySelectorAll('.glass-card').forEach(card => {
-            let bounds = card.getBoundingClientRect();
-            let mouseLeaveDelay;
-
-            const mouseEnter = (e) => {
-                clearTimeout(mouseLeaveDelay);
-                bounds = card.getBoundingClientRect();
-            };
-
-            const mouseMove = (e) => {
-                const mouseX = e.clientX;
-                const mouseY = e.clientY;
-                const leftX = mouseX - bounds.x;
-                const topY = mouseY - bounds.y;
-                const center = {
-                    x: leftX - bounds.width / 2,
-                    y: topY - bounds.height / 2
-                };
-                const distance = Math.sqrt(center.x ** 2 + center.y ** 2);
-
-                card.style.transform = `
-                    perspective(1000px)
-                    scale3d(1.07, 1.07, 1.07)
-                    rotate3d(
-                        ${center.y / 100},
-                        ${-center.x / 100},
-                        0,
-                        ${Math.log(distance) * 2}deg
-                    )
-                `;
-                card.style.filter = `brightness(1.1) contrast(1.1)`;
-            };
-
-            const mouseLeave = () => {
-                mouseLeaveDelay = setTimeout(() => {
-                    card.style.transform = `
-                        perspective(1000px)
-                        scale3d(1, 1, 1)
-                        rotate3d(0, 0, 0, 0)
-                    `;
-                    card.style.filter = 'brightness(1) contrast(1)';
-                }, 100);
-            };
-
-            card.addEventListener('mouseenter', mouseEnter);
-            card.addEventListener('mousemove', mouseMove);
-            card.addEventListener('mouseleave', mouseLeave);
-
-            // Removed scroll-based tilt animation
+            // Disable all 3D effects and apply consistent styling
+            card.style.transform = 'none !important';
+            card.style.transformStyle = 'flat !important';
+            card.style.perspective = 'none !important';
+            card.style.transition = 'box-shadow 0.3s ease, opacity 0.3s ease !important';
+            
+            // Only add simple hover effect
+            card.addEventListener('mouseenter', () => {
+                card.style.boxShadow = '0 0 20px rgba(0, 247, 255, 0.3)';
+                card.style.filter = 'brightness(1.1)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.boxShadow = '0 8px 32px rgba(0, 247, 255, 0.1)';
+                card.style.filter = 'brightness(1)';
+            });
         });
     </script>
 </body>
